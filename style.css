@@ -1,0 +1,120 @@
+html, body {
+  margin:0px;
+}
+
+#gameboard {
+  /* background:gray; */
+  height:100vh;
+}
+
+.grid {
+  /* background-color: #c7ecee; */
+  border: solid #2d3436 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.square-grid {
+  position: absolute;
+  /* background-color: yellow; */
+  border: solid #2d3436 1px;
+  height: 80px;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gameboard {
+  display: flex;
+  height:700px;
+  width:700px;
+}
+
+ul {
+    /* height:100vh;
+    width:100vw; */
+}
+
+li {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
+#chance-card,#community-card {
+  position: absolute;
+  height: 130px;
+  width: 100px;
+  transform: rotate(45deg);
+  border: solid #2d3436 1px
+}
+#chance-card {
+background-color: red;
+  top: 180px;
+left: calc((100% - 60px*9 - 80px)/2 - 48px + 180px)
+}
+#community-card {
+background-color: pink;
+top: calc(20px + 60px*9 - 140px );
+left: calc(100% - (100% - 60px*9)/2 - 8px - 200px)
+}
+
+.square-grid.top {
+left: calc((100% - 60px*9 - 128px)/2)
+}
+.square-grid.right {
+  top: 20px;
+  left: calc(100% - (100% - 60px*9)/2 - 8px)
+}
+.square-grid.bottom {
+  top: calc(20px + 60px*9 + 80px );
+  left: calc(100% - (100% - 60px*9)/2 - 8px)
+}
+.square-grid.left {
+  top: calc(20px + 60px*9 + 80px );
+  left: calc((100% - 60px*9 - 80px)/2 - 48px)
+}
+
+#top, #bottom {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+}
+
+#top .grid, #bottom .grid {
+  height: 80px;
+  width: 60px;
+}
+#top {
+  top: 20px;
+  left: calc((100% - 60px*9 - 80px)/2)
+}
+#bottom {
+  top: calc(20px + 60px*9 + 80px );
+  left: calc((100% - 60px*9 - 80px)/2)
+}
+#left {
+  top: calc(20px + 80px);
+  left: calc((100% - 60px*9 - 80px)/2 - 80px)
+}
+#right {
+  top: calc(20px + 80px);
+  left: calc(100% - (100% - 60px*9 - 80px)/2 - 80px)
+}
+#left .grid, #right .grid {
+  height: 60px;
+  width: 80px;
+}
+
+#left, #right {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.scene {
+  position: absolute;
+top: calc(20px + 60px*4 + 30px );
+left: calc(100% - (100% - 60px*9)/2 - 8px - 300px)
+}

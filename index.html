@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cryptopoly Game</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <!-- My Own CSS -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="lib/dice.css">
+</head>
+
+
+<body>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"></script>
+
+  <script src="js files/property.js"></script>
+  <script src="js files/player.js"></script>
+  <script src="js files/gameboard.js"></script>
+
+
+
+  <session id="gameboard">
+
+<!-- Source: https://icodemag.com/3d-rolling-dice-css-javascript/ -->
+        <div class = "scene">
+           <div class="cube">
+            <div class="cube__face cube__face--1">1</div>
+            <div class="cube__face cube__face--2">2</div>
+            <div class="cube__face cube__face--3">3</div>
+            <div class="cube__face cube__face--4">4</div>
+            <div class="cube__face cube__face--5">5</div>
+            <div class="cube__face cube__face--6">6</div>
+          </div>
+
+          <button class = "rollBtn">Roll</button>
+        </div>
+
+
+    <ul id="top">
+      <div class="square-grid top" id="grid1"><li>♟️</li><li>♟️</li></div>
+      <div class="grid" id="grid2"></div>
+      <div class="grid" id="grid3"></div>
+      <div class="grid" id="grid4"></div>
+      <div class="grid" id="grid5"></div>
+      <div class="grid" id="grid6"></div>
+      <div class="grid" id="grid7"></div>
+      <div class="grid" id="grid8"></div>
+      <div class="grid" id="grid9"></div>
+      <div class="grid" id="grid10"></div>
+    </ul>
+        <div class="square-grid right" id="grid11"></div>
+      <ul id="right">
+        <div class="grid" id="grid12"></div>
+        <div class="grid" id="grid13"></div>
+        <div class="grid" id="grid14"></div>
+        <div class="grid" id="grid15"></div>
+        <div class="grid" id="grid16"></div>
+        <div class="grid" id="grid17"></div>
+        <div class="grid" id="grid18"><li>♟️</li><li>♟️</li></div>
+        <div class="grid" id="grid19"></div>
+        <div class="grid" id="grid20"></div>
+      </ul>
+
+            <div class="square-grid bottom" id="grid21"></div>
+          <ul id="bottom">
+            <div class="grid" id="grid30"></div>
+            <div class="grid" id="grid29"></div>
+            <div class="grid" id="grid28"></div>
+            <div class="grid" id="grid27"></div>
+            <div class="grid" id="grid26"></div>
+            <div class="grid" id="grid25"></div>
+            <div class="grid" id="grid24"></div>
+            <div class="grid" id="grid23"><li>♟️</li><li>♟️</li></div>
+            <div class="grid" id="grid22"></div>
+          </ul>
+
+      <div class="square-grid left" id="grid31"></div>
+    <ul id="left">
+      <div class="grid" id="grid40"></div>
+      <div class="grid" id="grid39"></div>
+      <div class="grid" id="grid38"></div>
+      <div class="grid" id="grid37"></div>
+      <div class="grid" id="grid36"></div>
+      <div class="grid" id="grid35"><li>♟️</li><li>♟️</li></div>
+      <div class="grid" id="grid34"></div>
+      <div class="grid" id="grid33"></div>
+      <div class="grid" id="grid32"></div>
+    </ul>
+
+
+
+    <div id="chance-card"></div>
+    <div id="community-card"></div>
+  </session>
+
+    <script src="lib/dice.js"></script>
+
+  <script>
+  propertyList = [];
+  playerList = [];
+
+  gameboard = new gameboard(40,playerList)
+  </script>
+</body>
+
+</html>
