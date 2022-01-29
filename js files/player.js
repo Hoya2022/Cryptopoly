@@ -15,6 +15,7 @@ class player {
     this.size = 40;
     this.jail = 0;
     this.jailFreeCard = false;
+    this.message = [];
 
     //JS API
     //Create Player Object
@@ -167,7 +168,14 @@ class player {
   }
 
   print(msg) {
-    this.profile.querySelector('.message').innerHTML += "<li>"+msg+"</li>"
+    if(this.message.length == 5){
+      this.message.shift();
+    }
+    this.message.push(msg);
+    this.profile.querySelector('.message').innerHTML = "";
+    for(let i = 0; i < this.message.length; i++){
+      this.profile.querySelector('.message').innerHTML += "<li>"+this.message[i]+"</li>";
+    }
   }
 
   chance(playerList) {
