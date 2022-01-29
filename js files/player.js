@@ -141,7 +141,7 @@ class player {
               this.addPropertyLevel(currentProperty);
             }
           } else{
-            confirm("Insufficient Fund. Cannot buy this property.");
+            confirm("Insufficient fund. Cannot buy this property.");
           }
         }
         else{ // if it is owned by someone
@@ -152,6 +152,10 @@ class player {
               // should have a maximum property level
               if(currentProperty.numHouses === 3){
                 alert("Property reached highest level.\nNo further update is allowed");
+                return;
+              }
+              if(p.getMoney() <= currentProperty.marketPrice){
+                alert("Insefficient fund. Cannot upgrade this property");
                 return;
               }
               // removed checkColor function!!!!!
