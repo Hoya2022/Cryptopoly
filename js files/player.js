@@ -7,9 +7,9 @@ class player {
   //     this.size = size;
   // }
 
-  constructor(name,id){
+  constructor(name, id) {
     this.name = name;
-    this.money = 1500;
+    this.money = 0;
     this.propertyList = [];
     this.currentLocation = 0;
     this.size = 40;
@@ -29,7 +29,7 @@ class player {
 
     //JS API
     //Create player profile
-    this.profile = document.querySelector('#player'+this.id);
+    this.profile = document.querySelector('#player' + this.id);
     this.update();
   }
 
@@ -74,6 +74,10 @@ class player {
 
   loseJailFreeCard() {
     this.jailFreeCard = false;
+  }
+
+  checkBankruptcy() {
+    if (this.money < 0) alert("You are bankrupt!");
   }
 
   updateLocation(move) {
@@ -147,8 +151,8 @@ class player {
 
     let diff = location - previousLocation;
 
-    if(previousLocation>location)
-        diff = (40 - previousLocation) + (location - 0);
+    if (previousLocation > location)
+      diff = (40 - previousLocation) + (location - 0);
 
     for (let i = 0; i < diff + 1; i++) {
       setTimeout(
@@ -179,7 +183,7 @@ class player {
     }
   }
 
-  prompt(title,subtitle,message,callback) {
+  prompt(title, subtitle, message, callback) {
     document.querySelector('#event').style.display = '';
     document.querySelector('#event .card-title').textContent = title;
     document.querySelector('#event .card-subtitle').textContent = subtitle;
@@ -189,6 +193,7 @@ class player {
 
   chance(playerList) {
     let chance = Math.floor(Math.random() * (16 + 1 - 0) + 0);
+    this.print("You got a chance card!");
     if (chance <= 7) {
       let advance = Math.floor(Math.random() * (40 + 1 - 0) + 0);;
       this.updateLocation(advance);
@@ -240,6 +245,7 @@ class player {
 
   community(playerList) {
     let community = Math.floor(Math.random() * (16 - 0) + 0);
+    this.print("You got a commmunity card!")
     if (community == 0) {
       this.print("Advance to Go");
       this.updateLocation(this.size - this.currentLocation);
@@ -297,6 +303,7 @@ class player {
       this.print("");
       this.addMoney(10);
     }
+
   }
 
   addPropertyLevel(currentProperty) {
@@ -359,13 +366,14 @@ class player {
             `Buy ${currentProperty.getInfo()}`,
             'Property',
             `Do you want to buy ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}?`,
-            function() {
-                currentProperty.buyProperty(p);
-                p.addProperty(currentProperty);
-                // alert(`${p.getName()} successfully purchased ${currentProperty.getInfo()}!`);
-                p.print(`successfully purchased ${currentProperty.getInfo()}`);
-                p.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()}`;
-                p.addPropertyLevel(currentProperty);
+            function () {
+              currentProperty.buyProperty(p);
+              p.addProperty(currentProperty);
+              // alert(`${p.getName()} successfully purchased ${currentProperty.getInfo()}!`);
+              p.print(`successfully purchased ${currentProperty.getInfo()}`);
+              p.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()}`;
+              p.addPropertyLevel(currentProperty);
+              p.update();
             }
           )
         } else {
@@ -378,22 +386,23 @@ class player {
           // let answer = prompt(`Do you want to upgrade ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
           // answer = parseInt(answer);
 
-            p.prompt(
-              `Upgrade ${currentProperty.getInfo()}`,
-              'Property',
-              `Do you want to upgrade ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}?`,
-              function() {
-                // should have a maximum property level
-                if (currentProperty.numHouses === 3) {
-                  alert("Property reached highest level.\nNo further update is allowed");
-                  return;
-                }
-                // removed checkColor function!!!!!
-                currentProperty.buyProperty(p);
-                p.addProperty(currentProperty);
-                p.addPropertyLevel(currentProperty);
+          p.prompt(
+            `Upgrade ${currentProperty.getInfo()}`,
+            'Property',
+            `Do you want to upgrade ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}?`,
+            function () {
+              // should have a maximum property level
+              if (currentProperty.numHouses === 3) {
+                alert("Property reached highest level.\nNo further update is allowed");
+                return;
               }
-            )
+              // removed checkColor function!!!!!
+              currentProperty.buyProperty(p);
+              p.addProperty(currentProperty);
+              p.addPropertyLevel(currentProperty);
+              p.update();
+            }
+          )
 
           // if (answer == 1) {
           //   // should have a maximum property level
@@ -412,6 +421,8 @@ class player {
         }
       }
     }
+
     g.printGameboard();
+    this.checkBankruptcy();
   }
 }
