@@ -14,6 +14,15 @@ function randomStartingPrice(){
     return Math.floor(Math.random() * 91) + 10;
 }
 
+function randomPercentage(){
+    let x = Math.random();
+    let y = Math.random();
+    if(x <= 0.5){
+        y = y * -1;
+    }
+    return y;
+}
+
 console.log(arrOfCrypto);
 
 let tableCrypto = document.querySelector(".tbodyCrypto");
@@ -32,7 +41,11 @@ for(let i = 0; i < 8; i++){
 let rollBtn1 = document.querySelector(".rollBtn");
 rollBtn1.addEventListener("click", () =>{
     // update the percentage
-    let newArr = [-0.25, 0.3, 0.05, 0.12, -0.02, -0.33, 1.12, 0];
+    let newArr = [];
+    for(let i = 0; i < 8; i++){
+        let currentChange = randomPercentage();
+        newArr.push(currentChange);
+    }
 
     for(let i = 0; i < 8; i++){
         arrOfCrypto[i][1] = arrOfCrypto[i][1] * (1 + newArr[i]);
