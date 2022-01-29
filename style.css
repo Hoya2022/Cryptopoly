@@ -7,6 +7,16 @@ html, body {
   height:100vh;
 }
 
+#board {
+  position: absolute;
+  top: 10px;
+  left: calc((100% - 60px*9 - 80px)/2 - 60px);
+  width: calc( 80px*2 + 60px*9 + 20px);
+  height: calc( 80px*2 + 60px*9 + 20px);
+  box-shadow: 0 5px 20px rgba(0,0,0,.25);
+  /* background:gra y; */
+}
+
 .grid {
   /* background-color: #c7ecee; */
   border: solid #2d3436 1px;
@@ -29,10 +39,21 @@ html, body {
   position: absolute;
 }
 
-#profile li {
+.accordion-body ul {
+  margin-left: -20px;
+}
+
+#accordionFlush {
+  position: absolute;
+  top: 20px;
+  padding-left: 10px;
+  width: 20vw;
+}
+
+#profile ul li  {
   display: flex;
 }
-#profile li div {
+#profile ul li div {
   padding-left: 10px;
 }
 

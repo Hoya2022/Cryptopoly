@@ -7,7 +7,7 @@ class player {
   //     this.size = size;
   // }
 
-  constructor(name){
+  constructor(name,id){
     this.name = name;
     this.money = 150000;
     this.propertyList = [];
@@ -16,6 +16,7 @@ class player {
     this.jail = 0;
     this.jailFreeCard = false;
     this.message = [];
+    this.id = id;
 
     //JS API
     //Create Player Object
@@ -28,7 +29,7 @@ class player {
 
     //JS API
     //Create player profile
-    this.profile = document.querySelector('#player1');
+    this.profile = document.querySelector('#player'+this.id);
     this.update();
   }
 
@@ -147,7 +148,7 @@ class player {
     let diff = location - previousLocation;
 
     if(previousLocation>location)
-        diff = previousLocation - location;
+        diff = (40 - previousLocation) + (location - 0);
 
     for (let i = 0;i<diff+1; i++) {
       setTimeout(

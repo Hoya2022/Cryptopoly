@@ -27,19 +27,59 @@
   <script src="js files/player.js"></script>
   <script src="js files/gameboard.js"></script>
 
+
   <session id="profile">
-    <ul id='player1'>
-      <li class="name">Name: <div></div></li>
-      <li class="money">Money: <div></div></li>
-      <li class="location">Location: <div></div></li>
-      <li class="jail">Jail: <div></div></li>
-      <li class="property">Property: <div></div></li>
-      <li >message: </li>
-      <ul class="message"></ul>
-    </ul>
+
+
+    <div class="accordion accordion-flush" id="accordionFlush">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingOne">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+            Player 1
+          </button>
+        </h2>
+
+        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlush">
+          <div class="accordion-body">
+            <ul id='player0'>
+              <li class="name">Name: <div></div></li>
+              <li class="money">Money: <div></div></li>
+              <li class="location">Location: <div></div></li>
+              <li class="jail">Jail: <div></div></li>
+              <li class="property">Property: <div></div></li>
+              <li >message: </li>
+              <ul class="message"></ul>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="flush-headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+            Player 2
+          </button>
+        </h2>
+        <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlush">
+          <div class="accordion-body">
+            <ul id='player1'>
+              <li class="name">Name: <div></div></li>
+              <li class="money">Money: <div></div></li>
+              <li class="location">Location: <div></div></li>
+              <li class="jail">Jail: <div></div></li>
+              <li class="property">Property: <div></div></li>
+              <li >message: </li>
+              <ul class="message"></ul>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </session>
 
   <session id="gameboard">
+
+    <div id = "board"></div>
     <!-- Source: https://icodemag.com/3d-rolling-dice-css-javascript/ -->
     <div class = "scene">
       <div class="cube">
@@ -170,7 +210,7 @@
     name = "User cancelled the prompt.";
   } else {
     console.log(person)
-    playerList.push(new player(person));
+    playerList.push(new player(person,0));
   }
 
 
