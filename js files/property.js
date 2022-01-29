@@ -63,6 +63,10 @@ class property{
         return this.rent;
     }
 
+    getType() {
+        return this.type;
+    }
+
     getInfo(){
         return `${this.getLocation()} (${this.getColor()})`;
     }

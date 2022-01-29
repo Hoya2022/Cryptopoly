@@ -25,6 +25,17 @@ html, body {
   align-items: center;
 }
 
+#profile {
+  position: absolute;
+}
+
+#profile li {
+  display: flex;
+}
+#profile li div {
+  padding-left: 10px;
+}
+
 #gameboard {
   display: flex;
   height:700px;
@@ -36,7 +47,7 @@ ul {
     width:100vw; */
 }
 
-li {
+#gameboard li {
   list-style-type: none; /* Remove bullets */
   padding: 0; /* Remove padding */
   margin: 0; /* Remove margins */

@@ -8,11 +8,14 @@ class gameboard{
 
   createGameboard() {
     for(let i = 0; i < this.size; i++){
-      document.querySelector('#grid'+i.toString()).textContent = i
       let color = this.setGameboardColor(i);
       let type = this.setGameboardType(i);
-      if (type!="realestate")
+      if (type!="realestate") {
           color = '';
+          document.querySelector('#grid'+i.toString()).textContent = type
+      } else {
+          document.querySelector('#grid'+i.toString()).textContent = i
+      }
       let p = new property(i, color, false, null, 0, i * 100, i * 10, type);
       this.board.push(p);
     }
@@ -20,7 +23,9 @@ class gameboard{
 
   printGameboard(){
     // printing the UI
-    console.log("PRINTING THE UI")
+    for(let i = 0;i<this.playerList.length;i++) {
+      this.playerList[i].update()
+    }
   }
 
   setGameboardColor(location){
