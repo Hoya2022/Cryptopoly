@@ -192,18 +192,23 @@ class player {
     if (chance <= 7) {
       let advance = Math.floor(Math.random() * (40 + 1 - 0) + 0);;
       this.updateLocation(advance);
-      this.print("You advance " + advance + " steps to " + this.currentLocation + "!");
+      g.drew("change","You advance " + advance + " steps to " + this.currentLocation + "!")
+      // this.print("You advance " + advance + " steps to " + this.currentLocation + "!");
     } else if (chance == 8) {
-      this.print("The bank pays you dividends!");
+      // this.print("The bank pays you dividends!");
+      g.drew("The bank pays you dividends! Gain 50")
       this.addMoney(50);
     } else if (chance == 9) {
-      this.print("You get a Get Out of Jail Free Card!");
+      // this.print("You get a Get Out of Jail Free Card!");
+      g.drew("You get a Get Out of Jail Free Card!")
       this.addJailFreeCard();
     } else if (chance == 10) {
-      this.print("Go back 3 spaces!");
+      // this.print("Go back 3 spaces!");
+      g.drew("Go back 3 spaces!")
       this.updateLocation(-3);
     } else if (chance == 11) {
       this.print("You go to jail!");
+      g.drew("Go back 3 spaces!")
       // this.setLocation(20);
       this.setJail();
       this.moveTo(this.currentLocation, 10, 100, false)
