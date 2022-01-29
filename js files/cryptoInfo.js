@@ -1,7 +1,9 @@
 let arrOfCrypto = [];
 let names = ["Bitcoin", "Ethereum", "Tether", "Binance Coin", "Cardano", "HEX", "Solana", "XRP"];
+let numPlayers = g.board.length;
+let counter = 0;
 
-for(let i = 0; i < 8; i++){
+for (let i = 0; i < 8; i++) {
     let info = [];
     let currentName = names[i];
     info.push(currentName);
@@ -10,14 +12,14 @@ for(let i = 0; i < 8; i++){
     arrOfCrypto.push(info);
 }
 
-function randomStartingPrice(){
+function randomStartingPrice() {
     return Math.floor(Math.random() * 91) + 10;
 }
 
-function randomPercentage(){
+function randomPercentage() {
     let x = Math.random();
     let y = Math.random();
-    if(x <= 0.5){
+    if (x <= 0.5) {
         y = y * -1;
     }
     return y;
@@ -26,9 +28,9 @@ function randomPercentage(){
 console.log(arrOfCrypto);
 
 let tableCrypto = document.querySelector(".tbodyCrypto");
-for(let i = 0; i < 8; i++){
+for (let i = 0; i < 8; i++) {
     let row = document.createElement("tr");
-    for(let j = 0; j < 3; j++){
+    for (let j = 0; j < 3; j++) {
         let cell = document.createElement("td");
         let cellText = document.createTextNode(arrOfCrypto[i][j]);
         cell.appendChild(cellText);
@@ -39,27 +41,29 @@ for(let i = 0; i < 8; i++){
 }
 
 let rollBtn1 = document.querySelector(".rollBtn");
-rollBtn1.addEventListener("click", () =>{
-    // update the percentage
-    let newArr = [];
-    for(let i = 0; i < 8; i++){
-        let currentChange = randomPercentage();
-        newArr.push(currentChange);
+rollBtn1.addEventListener("click", () => {
+    if (counter != 0 && counter % 2 == 0) {
+        // update the percentage
+        let newArr = [];
+        for (let i = 0; i < 8; i++) {
+            let currentChange = randomPercentage();
+            newArr.push(currentChange);
+        }
+
+        for (let i = 0; i < 8; i++) {
+            arrOfCrypto[i][1] = Math.round(arrOfCrypto[i][1] * (1 + newArr[i]) * 100) / 100;
+            arrOfCrypto[i][2] = Math.round(newArr[i] * 100) / 100;
+        }
+        console.log(arrOfCrypto);
     }
 
-    for(let i = 0; i < 8; i++){
-        arrOfCrypto[i][1] = arrOfCrypto[i][1] * (1 + newArr[i]);
-        arrOfCrypto[i][2] = newArr[i];
-    }
-    console.log(arrOfCrypto);
-
-    for(let i = 0; i < 8; i++){
+    for (let i = 0; i < 8; i++) {
         document.querySelector(".dummy").remove();
     }
-    
-    for(let i = 0; i < 8; i++){
+
+    for (let i = 0; i < 8; i++) {
         let row = document.createElement("tr");
-        for(let j = 0; j < 3; j++){
+        for (let j = 0; j < 3; j++) {
             let cell = document.createElement("td");
             let cellText = document.createTextNode(arrOfCrypto[i][j]);
             cell.appendChild(cellText);
@@ -68,6 +72,8 @@ rollBtn1.addEventListener("click", () =>{
         row.classList.add("dummy");
         tableCrypto.appendChild(row);
     }
+
+    counter++;
 })
 
 

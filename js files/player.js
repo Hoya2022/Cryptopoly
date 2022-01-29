@@ -9,7 +9,7 @@ class player {
 
   constructor(name, id) {
     this.name = name;
-    this.money = 0;
+    this.money = 1500;
     this.propertyList = [];
     this.currentLocation = 0;
     this.size = 40;
@@ -17,6 +17,7 @@ class player {
     this.jailFreeCard = false;
     this.message = [];
     this.id = id;
+    this.cryptoList = [];
 
     //JS API
     //Create Player Object
@@ -78,6 +79,10 @@ class player {
 
   checkBankruptcy() {
     if (this.money < 0) alert("You are bankrupt!");
+  }
+
+  setCryptoList() {
+
   }
 
   updateLocation(move) {
