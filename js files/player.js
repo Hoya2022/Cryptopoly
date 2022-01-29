@@ -7,9 +7,9 @@ class player {
   //     this.size = size;
   // }
 
-  constructor(name){
+  constructor(name) {
     this.name = name;
-    this.money = 150000;
+    this.money = 1500;
     this.propertyList = [];
     this.currentLocation = 0;
     this.size = 40;
@@ -19,11 +19,11 @@ class player {
 
     //JS API
     //Create Player Object
-    let player = document.createElement( 'li' );
+    let player = document.createElement('li');
     // player.textContent = '♟️';
     player.textContent = this.name;
 
-    let gridNext = document.querySelector('#grid'+this.currentLocation.toString());
+    let gridNext = document.querySelector('#grid' + this.currentLocation.toString());
     gridNext.appendChild(player)
 
     //JS API
@@ -35,31 +35,31 @@ class player {
   update() {
     this.profile.querySelector('.name div').textContent = this.name
     this.profile.querySelector('.jail div').textContent = this.jail
-    this.profile.querySelector('.money div').textContent = this.money
+    this.profile.querySelector('.money div').textContent = Math.round(this.money * 100) / 100;
     this.profile.querySelector('.location div').textContent = this.currentLocation
   }
 
-  setName(name){
+  setName(name) {
     this.name = name;
   }
-  getName(){
+  getName() {
     return this.name;
   }
 
-  addProperty(p){
+  addProperty(p) {
     this.propertyList.push(p);
   }
-  getPropertyList(){
+  getPropertyList() {
     return this.propertyList;
   }
 
-  addMoney(m){
+  addMoney(m) {
     this.money += m;
   }
-  subMoney(m){
+  subMoney(m) {
     this.money -= m;
   }
-  getMoney(){
+  getMoney() {
     return this.money;
   }
 
@@ -75,12 +75,12 @@ class player {
     this.jailFreeCard = false;
   }
 
-  updateLocation(move){
+  updateLocation(move) {
     let p = this;
     if (p.jail <= 0) {
       //JS API
       //Remove Player Object
-      let gridPrevious = document.querySelector('#grid'+this.currentLocation.toString());
+      let gridPrevious = document.querySelector('#grid' + this.currentLocation.toString());
       let playerPreviousLocation = gridPrevious.querySelector('li');
       gridPrevious.removeChild(playerPreviousLocation)
       //JS API
@@ -97,32 +97,32 @@ class player {
 
       // this.currentLocation = (this.currentLocation) % this.size;
       nextLocation = (nextLocation) % this.size;
-      this.moveTo(previousLocation,nextLocation,500);
-      console.log("Move to "+this.currentLocation);
+      this.moveTo(previousLocation, nextLocation, 500);
+      console.log("Move to " + this.currentLocation);
 
       //JS API
       //Create Player Object
-      let player = document.createElement( 'li' );
+      let player = document.createElement('li');
       // player.textContent = '♟️';
       player.textContent = this.name;
 
-      let gridNext = document.querySelector('#grid'+this.currentLocation.toString());
+      let gridNext = document.querySelector('#grid' + this.currentLocation.toString());
       gridNext.appendChild(player)
       //JS API
     } else {
       p.print(p.name + " is in jail and has to wait " + p.jail + " turns!");
-      p.jail = p.jail-1;
+      p.jail = p.jail - 1;
     }
 
   }
-  getLocation(){
+  getLocation() {
     return this.currentLocation;
   }
 
   setLocation(location) {
     //JS API
     //Remove Player Object
-    let gridPrevious = document.querySelector('#grid'+this.currentLocation.toString());
+    let gridPrevious = document.querySelector('#grid' + this.currentLocation.toString());
     let playerPreviousLocation = gridPrevious.querySelector('li');
     gridPrevious.removeChild(playerPreviousLocation)
     //JS API
@@ -131,50 +131,50 @@ class player {
 
     //JS API
     //Create Player Object
-    let player = document.createElement( 'li' );
+    let player = document.createElement('li');
     // player.textContent = '♟️';
     player.textContent = this.name;
 
-    let gridNext = document.querySelector('#grid'+this.currentLocation.toString());
+    let gridNext = document.querySelector('#grid' + this.currentLocation.toString());
     gridNext.appendChild(player)
     //JS API
   }
 
-  moveTo(previousLocation,location,speed,event) {
+  moveTo(previousLocation, location, speed, event) {
     g.isMoving = true;
     let p = this;
 
     let diff = location - previousLocation;
 
-    if(previousLocation>location)
-        diff = previousLocation - location;
+    if (previousLocation > location)
+      diff = previousLocation - location;
 
-    for (let i = 0;i<diff+1; i++) {
+    for (let i = 0; i < diff + 1; i++) {
       setTimeout(
-        function() {
+        function () {
 
-            if(i==diff) {
-              p.triggerEvent()
-              g.isMoving = false;
-              } else {
-              let nextLocation = (previousLocation+i+1) % p.size;
+          if (i == diff) {
+            p.triggerEvent()
+            g.isMoving = false;
+          } else {
+            let nextLocation = (previousLocation + i + 1) % p.size;
             p.setLocation(nextLocation)
-              }
+          }
 
         }
-        ,speed * i
+        , speed * i
       )
     }
   }
 
   print(msg) {
-    if(this.message.length == 5){
+    if (this.message.length == 5) {
       this.message.shift();
     }
     this.message.push(msg);
     this.profile.querySelector('.message').innerHTML = "";
-    for(let i = 0; i < this.message.length; i++){
-      this.profile.querySelector('.message').innerHTML += "<li>"+this.message[i]+"</li>";
+    for (let i = 0; i < this.message.length; i++) {
+      this.profile.querySelector('.message').innerHTML += "<li>" + this.message[i] + "</li>";
     }
   }
 
@@ -197,7 +197,7 @@ class player {
       this.print("You go to jail!");
       // this.setLocation(20);
       this.setJail();
-      this.moveTo(this.currentLocation,20,100,false)
+      this.moveTo(this.currentLocation, 10, 100, false)
     } else if (chance == 12) {
       this.print("You pay repairs for each house you own!");
       for (let i = 0; i < propertyList.length; i++) {
@@ -210,7 +210,7 @@ class player {
     } else if (chance == 14) {
       this.print("Move up to nearest NFT!");
       while (!(this.currentLocation % 5 == 0 && this.currentLocation % 10 != 0))
-      this.updateLocation(1);
+        this.updateLocation(1);
     } else if (chance == 15) {
       this.print("You are the chairman. Pay everyone $50 each.");
       for (let i = 0; i < playerList.length; i++) {
@@ -245,7 +245,7 @@ class player {
       this.print("Go to Jail. Go directly to jail, do not pass Go, do not collect $200");
       // this.setLocation(20);
       this.setJail();
-      this.moveTo(this.currentLocation,20,100,false)
+      this.moveTo(this.currentLocation, 10, 100, false)
     } else if (community == 6) {
       this.print("Holiday fund matures. Receive $100");
       this.addMoney(100);
@@ -285,26 +285,26 @@ class player {
     }
   }
 
-  addPropertyLevel(currentProperty){
-    let currentGrid = document.querySelector('#grid'+this.currentLocation.toString());
+  addPropertyLevel(currentProperty) {
+    let currentGrid = document.querySelector('#grid' + this.currentLocation.toString());
 
-    if(currentProperty.location >= 1 && currentProperty.location <= 10){ // upper
+    if (currentProperty.location >= 1 && currentProperty.location <= 10) { // upper
       let createDot = document.createElement("div");
       createDot.classList.add("dot");
       // createDot.classList.add("align-self-end");
       currentGrid.appendChild(createDot);
     }
-    else if(currentProperty.location >= 11 && currentProperty.location <= 20){ // right side
+    else if (currentProperty.location >= 11 && currentProperty.location <= 20) { // right side
       let createDot = document.createElement("div");
       createDot.classList.add("dot");
       currentGrid.appendChild(createDot);
     }
-    else if(currentProperty.location >= 21 && currentProperty.location <= 30){ // bottom
+    else if (currentProperty.location >= 21 && currentProperty.location <= 30) { // bottom
       let createDot = document.createElement("div");
       createDot.classList.add("dot");
       currentGrid.appendChild(createDot);
     }
-    else{ // left
+    else { // left
       let createDot = document.createElement("div");
       createDot.classList.add("dot");
       currentGrid.appendChild(createDot);
@@ -324,9 +324,9 @@ class player {
       if (!p.jailFreeCard) {
         p.setJail();
         // p.setLocation(10);
-        this.moveTo(this.currentLocation,10,100,false)
+        this.moveTo(this.currentLocation, 10, 100, false)
       } else
-      p.loseJailFreeCard();
+        p.loseJailFreeCard();
     } else if (type == "nft") {
       this.print(p.name + " bought an NFT for $200!");
       p.subMoney(200);
@@ -335,9 +335,9 @@ class player {
       p.subMoney(p.getMoney() / 10);
     } else if (type == "community") {
       p.community(playerList);
-    } else if(type == "realestate"){
-      if(currentProperty.owned == false){
-        if(p.getMoney() >= currentProperty.marketPrice){
+    } else if (type == "realestate") {
+      if (currentProperty.owned == false) {
+        if (p.getMoney() >= currentProperty.marketPrice) {
           let answer = prompt(`Do you want to buy ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
           answer = parseInt(answer);
 
@@ -349,17 +349,17 @@ class player {
             this.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()}`;
             this.addPropertyLevel(currentProperty);
           }
-        } else{
+        } else {
           confirm("Insufficient Fund. Cannot buy this property.");
         }
       }
-      else{ // if it is owned by someone
-        if(currentProperty.getOwner().name == p.name){
+      else { // if it is owned by someone
+        if (currentProperty.getOwner().name == p.name) {
           let answer = prompt(`Do you want to upgrade ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
           answer = parseInt(answer);
           if (answer == 1) {
             // should have a maximum property level
-            if(currentProperty.numHouses === 3){
+            if (currentProperty.numHouses === 3) {
               alert("Property reached highest level.\nNo further update is allowed");
               return;
             }
@@ -369,10 +369,11 @@ class player {
             this.addPropertyLevel(currentProperty);
           }
         }
-        else{ // owns by someone else, pay rent
+        else { // owns by someone else, pay rent
           currentProperty.payRent(p);
         }
       }
     }
+    g.printGameboard();
   }
 }
