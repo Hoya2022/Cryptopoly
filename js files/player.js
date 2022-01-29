@@ -85,13 +85,18 @@ class player {
       //JS API
 
       // this.currentLocation = (this.currentLocation + move) % this.size;
-      this.currentLocation = this.currentLocation + move;
-      if (this.currentLocation >= this.size) {
+      let previousLocation = this.currentLocation;
+      // this.currentLocation = this.currentLocation + move;
+      let nextLocation = this.currentLocation + move;
+      // if (this.currentLocation >= this.size) {
+      if (nextLocation >= this.size) {
         this.print("You received $200 for passing \"GO!\"");
         this.money += 200;
       }
 
-      this.currentLocation = (this.currentLocation) % this.size;
+      // this.currentLocation = (this.currentLocation) % this.size;
+      nextLocation = (nextLocation) % this.size;
+      this.moveTo(previousLocation,nextLocation,500);
       console.log("Move to "+this.currentLocation);
 
       //JS API
@@ -103,67 +108,6 @@ class player {
       let gridNext = document.querySelector('#grid'+this.currentLocation.toString());
       gridNext.appendChild(player)
       //JS API
-
-      let currentProperty = g.board[this.getLocation()];
-      let type = currentProperty.getType();
-
-      if (type == "chance") {
-        p.chance(g.playerList);
-        // if (p.jail > 0)
-        //     break;
-      } else if (type == "gotojail") {
-        if (!p.jailFreeCard) {
-          p.setJail();
-          p.setLocation(10);
-        } else
-        p.loseJailFreeCard();
-      } else if (type == "nft") {
-        this.print(p.name + " bought an NFT for $200!");
-        p.subMoney(200);
-      } else if (type == "tax") {
-        this.print("It's tax season!");
-        p.subMoney(p.getMoney() / 10);
-      } else if (type == "community") {
-        p.community(playerList);
-      } else if(type == "realestate"){
-        if(currentProperty.owned == false){
-          if(p.getMoney() >= currentProperty.marketPrice){
-            let answer = prompt(`Do you want to buy ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
-            answer = parseInt(answer);
-            
-            if (answer == 1) {
-              currentProperty.buyProperty(p);
-              p.addProperty(currentProperty);
-              alert(`${p.getName()} successfully purchased ${currentProperty.getInfo()}!`);
-              this.print(`successfully purchased ${currentProperty.getInfo()}`);
-              this.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()}`;
-              this.addPropertyLevel(currentProperty);
-            }
-          } else{
-            confirm("Insufficient Fund. Cannot buy this property.");
-          }
-        }
-        else{ // if it is owned by someone
-          if(currentProperty.getOwner().name == p.name){
-            let answer = prompt(`Do you want to upgrade ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
-            answer = parseInt(answer);
-            if (answer == 1) {
-              // should have a maximum property level
-              if(currentProperty.numHouses === 3){
-                alert("Property reached highest level.\nNo further update is allowed");
-                return;
-              }
-              // removed checkColor function!!!!!
-              currentProperty.buyProperty(p);
-              p.addProperty(currentProperty);
-              this.addPropertyLevel(currentProperty);
-            }
-          }
-          else{ // owns by someone else, pay rent
-            currentProperty.payRent(p);
-          }
-        }
-      }
     } else {
       p.print(p.name + " is in jail and has to wait " + p.jail + " turns!");
       p.jail = p.jail-1;
@@ -195,6 +139,33 @@ class player {
     //JS API
   }
 
+  moveTo(previousLocation,location,speed,event) {
+    g.isMoving = true;
+    let p = this;
+
+    let diff = location - previousLocation;
+
+    if(previousLocation>location)
+        diff = previousLocation - location;
+
+    for (let i = 0;i<diff+1; i++) {
+      setTimeout(
+        function() {
+
+            if(i==diff) {
+              p.triggerEvent()
+              g.isMoving = false;
+              } else {
+              let nextLocation = (previousLocation+i+1) % p.size;
+            p.setLocation(nextLocation)
+              }
+
+        }
+        ,speed * i
+      )
+    }
+  }
+
   print(msg) {
     this.profile.querySelector('.message').innerHTML += "<li>"+msg+"</li>"
   }
@@ -216,8 +187,9 @@ class player {
       this.updateLocation(-3);
     } else if (chance == 11) {
       this.print("You go to jail!");
-      this.setLocation(20);
+      // this.setLocation(20);
       this.setJail();
+      this.moveTo(this.currentLocation,20,100,false)
     } else if (chance == 12) {
       this.print("You pay repairs for each house you own!");
       for (let i = 0; i < propertyList.length; i++) {
@@ -263,8 +235,9 @@ class player {
       this.addJailFreeCard();
     } else if (community == 5) {
       this.print("Go to Jail. Go directly to jail, do not pass Go, do not collect $200");
-      this.setLocation(20);
+      // this.setLocation(20);
       this.setJail();
+      this.moveTo(this.currentLocation,20,100,false)
     } else if (community == 6) {
       this.print("Holiday fund matures. Receive $100");
       this.addMoney(100);
@@ -327,6 +300,71 @@ class player {
       let createDot = document.createElement("div");
       createDot.classList.add("dot");
       currentGrid.appendChild(createDot);
+    }
+  }
+
+  triggerEvent() {
+    let p = this;
+    let currentProperty = g.board[this.getLocation()];
+    let type = currentProperty.getType();
+
+    if (type == "chance") {
+      p.chance(g.playerList);
+      // if (p.jail > 0)
+      //     break;
+    } else if (type == "gotojail") {
+      if (!p.jailFreeCard) {
+        p.setJail();
+        // p.setLocation(10);
+        this.moveTo(this.currentLocation,10,100,false)
+      } else
+      p.loseJailFreeCard();
+    } else if (type == "nft") {
+      this.print(p.name + " bought an NFT for $200!");
+      p.subMoney(200);
+    } else if (type == "tax") {
+      this.print("It's tax season!");
+      p.subMoney(p.getMoney() / 10);
+    } else if (type == "community") {
+      p.community(playerList);
+    } else if(type == "realestate"){
+      if(currentProperty.owned == false){
+        if(p.getMoney() >= currentProperty.marketPrice){
+          let answer = prompt(`Do you want to buy ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
+          answer = parseInt(answer);
+
+          if (answer == 1) {
+            currentProperty.buyProperty(p);
+            p.addProperty(currentProperty);
+            alert(`${p.getName()} successfully purchased ${currentProperty.getInfo()}!`);
+            this.print(`successfully purchased ${currentProperty.getInfo()}`);
+            this.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()}`;
+            this.addPropertyLevel(currentProperty);
+          }
+        } else{
+          confirm("Insufficient Fund. Cannot buy this property.");
+        }
+      }
+      else{ // if it is owned by someone
+        if(currentProperty.getOwner().name == p.name){
+          let answer = prompt(`Do you want to upgrade ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
+          answer = parseInt(answer);
+          if (answer == 1) {
+            // should have a maximum property level
+            if(currentProperty.numHouses === 3){
+              alert("Property reached highest level.\nNo further update is allowed");
+              return;
+            }
+            // removed checkColor function!!!!!
+            currentProperty.buyProperty(p);
+            p.addProperty(currentProperty);
+            this.addPropertyLevel(currentProperty);
+          }
+        }
+        else{ // owns by someone else, pay rent
+          currentProperty.payRent(p);
+        }
+      }
     }
   }
 }

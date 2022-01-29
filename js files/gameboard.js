@@ -3,6 +3,7 @@ class gameboard{
     this.size = size;
     this.board = [];
     this.playerList = playerList;
+    this.isMoving = false;
     this.createGameboard();
   }
 
