@@ -27,6 +27,18 @@
   <script src="js files/player.js"></script>
   <script src="js files/gameboard.js"></script>
 
+      <session id="event" style="display:none">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-success" onclick="g.prompt(1)">Yes</a>
+          <a href="#" class="btn btn-danger" onclick="g.prompt(0)">No</a>
+        </div>
+      </div>
+    </session>
+
 
   <session id="profile">
 
@@ -214,83 +226,6 @@
   }
 
 
-
-  // // let turns = 0;
-  // // for (let i = 0; i < turns; i++) {
-  //   // roll dice
-  //   for (let j = 0; j < playerList.length; j++) {
-  //     p = playerList[j];
-  //     if (p.jail <= 0) {
-  //
-  //       move = rollDice();
-  //
-  //       // move and update location
-  //       console.log(p)
-  //       p.updateLocation(move);
-  //
-  //       // get current property
-  //       let currentProperty = g.board.get(p.getLocation());
-  //
-  //       console.log("Player " + p.getName() + " moves " + move + " steps to position "
-  //       + p.getLocation() + "(" + currentProperty.getColor() + ")");
-  //
-  //       let type = currentProperty.getType();
-  //
-  //       if (type=="chance") {
-  //         p.chance(playerList);
-  //       }
-  //       if (p.jail > 0)
-  //       break;
-  //
-  //       // if (type=="realestate") {
-  //       //   if (!currentProperty.owned) { // if no one owns property --> buy
-  //       //     console.log("Do you want to buy " + currentProperty.getInfo() + " for "
-  //       //     + currentProperty.getMarketPrice() + "? yes:1, no:0");
-  //       //     let answer = Integer.parseInt(scanner());
-  //       //     if (answer == 1) {
-  //       //       currentProperty.buyProperty(p);
-  //       //       p.addProperty(currentProperty);
-  //       //     }
-  //       //   } else {
-  //       //     if (currentProperty.getOwner().equals(p)) { // if player owns --> buy more
-  //       //       System.out.println("Do you want to buy more " + currentProperty.getInfo() + " for "
-  //       //       + currentProperty.getMarketPrice() + "? yes:1, no:0");
-  //       //       int answer = Integer.parseInt(scanner());
-  //       //       if (answer == 1) {
-  //       //         if (checkColor(currentProperty, p)) {
-  //       //           currentProperty.buyProperty(p);
-  //       //           p.addProperty(currentProperty);
-  //       //         }
-  //       //       }
-  //       //     } else { // otherwise pay rent
-  //       //       currentProperty.payRent(p);
-  //       //     }
-  //       //   }
-  //       // } else if (type.equals("gotojail")) {
-  //       //   if (!p.jailFreeCard) {
-  //       //     p.setJail();
-  //       //     p.setLocation(10);
-  //       //   } else
-  //       //   p.loseJailFreeCard();
-  //       // } else if (type.equals("nft")) {
-  //       //   System.out.println(p.name + " bought an NFT  for $200!");
-  //       //   p.subMoney(200);
-  //       // } else if (type.equals("tax")) {
-  //       //   System.out.println("It's tax season!");
-  //       //   p.subMoney(p.getMoney() / 10);
-  //       // } else if (type.equals("community")) {
-  //       //   p.community(playerList);
-  //       // }
-  //
-  //     } else {
-  //       console.log(p.name + " is in jail and has to wait " + p.jail + " turns!");
-  //       p.jail -= 1;
-  //     }
-  //
-  //     console.log("Player " + p.getName() + " has $" + p.getMoney());
-  //     // g.printGameboard();
-  //   }
-  // }
   </script>
 </body>
 

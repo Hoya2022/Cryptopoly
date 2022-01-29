@@ -2,6 +2,12 @@ html, body {
   margin:0px;
 }
 
+#event {
+  position: absolute;
+  top: calc(20px + 60px*4 - 0px );
+  left: calc(100% - (100% - 60px*9)/2 - 8px - 400px);
+  z-index: 20;
+}
 #gameboard {
   /* background:gray; */
   height:100vh;

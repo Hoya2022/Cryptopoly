@@ -5,6 +5,7 @@ class gameboard{
     this.playerList = playerList;
     this.isMoving = false;
     this.createGameboard();
+    this.promptEvent = false;
   }
 
   createGameboard() {
@@ -17,7 +18,7 @@ class gameboard{
       } else {
           document.querySelector('#grid'+i.toString()).textContent = i
       }
-      let p = new property(i, color, false, null, 0, i * 100, i * 10, type);
+      let p = new property(i, color, false, null, 0, 100, i * 10, type);
       this.board.push(p);
     }
   }
@@ -69,5 +70,12 @@ class gameboard{
         return "gotojail";
     else
         return "realestate";
+  }
+
+  prompt(answer) {
+    if(answer==1) {
+      g.promptEvent();
+    }
+    document.querySelector('#event').style.display = 'none';
   }
 }

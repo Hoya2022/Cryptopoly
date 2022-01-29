@@ -98,7 +98,7 @@ class player {
 
       // this.currentLocation = (this.currentLocation) % this.size;
       nextLocation = (nextLocation) % this.size;
-      this.moveTo(previousLocation, nextLocation, 500);
+      this.moveTo(previousLocation, nextLocation, 300);
       console.log("Move to " + this.currentLocation);
 
       //JS API
@@ -177,6 +177,14 @@ class player {
     for (let i = 0; i < this.message.length; i++) {
       this.profile.querySelector('.message').innerHTML += "<li>" + this.message[i] + "</li>";
     }
+  }
+
+  prompt(title,subtitle,message,callback) {
+    document.querySelector('#event').style.display = '';
+    document.querySelector('#event .card-title').textContent = title;
+    document.querySelector('#event .card-subtitle').textContent = subtitle;
+    document.querySelector('#event .card-text').textContent = message;
+    g.promptEvent = callback;
   }
 
   chance(playerList) {
@@ -339,36 +347,60 @@ class player {
     } else if (type == "realestate") {
       if (currentProperty.owned == false) {
         if (p.getMoney() >= currentProperty.marketPrice) {
-          let answer = prompt(`Do you want to buy ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
-          answer = parseInt(answer);
+          // let answer = prompt(`Do you want to buy ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
+          // answer = parseInt(answer);
 
-          if (answer == 1) {
-            currentProperty.buyProperty(p);
-            p.addProperty(currentProperty);
-            alert(`${p.getName()} successfully purchased ${currentProperty.getInfo()}!`);
-            this.print(`successfully purchased ${currentProperty.getInfo()}`);
-            this.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()}`;
-            this.addPropertyLevel(currentProperty);
-          }
+          p.prompt(
+            `Buy ${currentProperty.getInfo()}`,
+            'Property',
+            `Do you want to buy ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}?`,
+            function() {
+                currentProperty.buyProperty(p);
+                p.addProperty(currentProperty);
+                // alert(`${p.getName()} successfully purchased ${currentProperty.getInfo()}!`);
+                p.print(`successfully purchased ${currentProperty.getInfo()}`);
+                p.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()}`;
+                p.addPropertyLevel(currentProperty);
+            }
+          )
         } else {
           confirm("Insufficient Fund. Cannot buy this property.");
         }
       }
       else { // if it is owned by someone
         if (currentProperty.getOwner().name == p.name) {
-          let answer = prompt(`Do you want to upgrade ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
-          answer = parseInt(answer);
-          if (answer == 1) {
-            // should have a maximum property level
-            if (currentProperty.numHouses === 3) {
-              alert("Property reached highest level.\nNo further update is allowed");
-              return;
-            }
-            // removed checkColor function!!!!!
-            currentProperty.buyProperty(p);
-            p.addProperty(currentProperty);
-            this.addPropertyLevel(currentProperty);
-          }
+
+          // let answer = prompt(`Do you want to upgrade ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
+          // answer = parseInt(answer);
+
+            p.prompt(
+              `Upgrade ${currentProperty.getInfo()}`,
+              'Property',
+              `Do you want to upgrade ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}?`,
+              function() {
+                // should have a maximum property level
+                if (currentProperty.numHouses === 3) {
+                  alert("Property reached highest level.\nNo further update is allowed");
+                  return;
+                }
+                // removed checkColor function!!!!!
+                currentProperty.buyProperty(p);
+                p.addProperty(currentProperty);
+                p.addPropertyLevel(currentProperty);
+              }
+            )
+
+          // if (answer == 1) {
+          //   // should have a maximum property level
+          //   if (currentProperty.numHouses === 3) {
+          //     alert("Property reached highest level.\nNo further update is allowed");
+          //     return;
+          //   }
+          //   // removed checkColor function!!!!!
+          //   currentProperty.buyProperty(p);
+          //   p.addProperty(currentProperty);
+          //   this.addPropertyLevel(currentProperty);
+          // }
         }
         else { // owns by someone else, pay rent
           currentProperty.payRent(p);
