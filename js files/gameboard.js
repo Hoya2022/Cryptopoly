@@ -8,13 +8,12 @@ class gameboard{
 
   createGameboard() {
     for(let i = 0; i < this.size; i++){
-      let ii = i+1;
-      document.querySelector('#grid'+ii.toString()).textContent = ii
+      document.querySelector('#grid'+i.toString()).textContent = i
       let color = this.setGameboardColor(i);
       let type = this.setGameboardType(i);
       if (type!="realestate")
           color = '';
-      let p = new property(ii, color, false, null, 0, i * 100, i * 10, type);
+      let p = new property(i, color, false, null, 0, i * 100, i * 10, type);
       this.board.push(p);
     }
   }

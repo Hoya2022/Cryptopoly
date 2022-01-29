@@ -31,23 +31,24 @@
 
   <session id="gameboard">
 
-<!-- Source: https://icodemag.com/3d-rolling-dice-css-javascript/ -->
-        <div class = "scene">
-           <div class="cube">
-            <div class="cube__face cube__face--1">1</div>
-            <div class="cube__face cube__face--2">2</div>
-            <div class="cube__face cube__face--3">3</div>
-            <div class="cube__face cube__face--4">4</div>
-            <div class="cube__face cube__face--5">5</div>
-            <div class="cube__face cube__face--6">6</div>
-          </div>
+    <!-- Source: https://icodemag.com/3d-rolling-dice-css-javascript/ -->
+    <div class = "scene">
+      <div class="cube">
+        <div class="cube__face cube__face--1">1</div>
+        <div class="cube__face cube__face--2">2</div>
+        <div class="cube__face cube__face--3">3</div>
+        <div class="cube__face cube__face--4">4</div>
+        <div class="cube__face cube__face--5">5</div>
+        <div class="cube__face cube__face--6">6</div>
+      </div>
 
-          <button class = "rollBtn">Roll</button>
-        </div>
+      <button class = "rollBtn">Roll</button>
+    </div>
 
 
     <ul id="top">
-      <div class="square-grid top" id="grid1"><li>♟️</li><li>♟️</li></div>
+      <div class="square-grid top" id="grid0"></div>
+      <div class="grid" id="grid1"></div>
       <div class="grid" id="grid2"></div>
       <div class="grid" id="grid3"></div>
       <div class="grid" id="grid4"></div>
@@ -56,45 +57,44 @@
       <div class="grid" id="grid7"></div>
       <div class="grid" id="grid8"></div>
       <div class="grid" id="grid9"></div>
-      <div class="grid" id="grid10"></div>
     </ul>
-        <div class="square-grid right" id="grid11"></div>
-      <ul id="right">
-        <div class="grid" id="grid12"></div>
-        <div class="grid" id="grid13"></div>
-        <div class="grid" id="grid14"></div>
-        <div class="grid" id="grid15"></div>
-        <div class="grid" id="grid16"></div>
-        <div class="grid" id="grid17"></div>
-        <div class="grid" id="grid18"><li>♟️</li><li>♟️</li></div>
-        <div class="grid" id="grid19"></div>
-        <div class="grid" id="grid20"></div>
-      </ul>
+    <div class="square-grid right" id="grid10"></div>
+    <ul id="right">
+      <div class="grid" id="grid11"></div>
+      <div class="grid" id="grid12"></div>
+      <div class="grid" id="grid13"></div>
+      <div class="grid" id="grid14"></div>
+      <div class="grid" id="grid15"></div>
+      <div class="grid" id="grid16"></div>
+      <div class="grid" id="grid17"></div>
+      <div class="grid" id="grid18"></div>
+      <div class="grid" id="grid19"></div>
+    </ul>
 
-            <div class="square-grid bottom" id="grid21"></div>
-          <ul id="bottom">
-            <div class="grid" id="grid30"></div>
-            <div class="grid" id="grid29"></div>
-            <div class="grid" id="grid28"></div>
-            <div class="grid" id="grid27"></div>
-            <div class="grid" id="grid26"></div>
-            <div class="grid" id="grid25"></div>
-            <div class="grid" id="grid24"></div>
-            <div class="grid" id="grid23"><li>♟️</li><li>♟️</li></div>
-            <div class="grid" id="grid22"></div>
-          </ul>
+    <div class="square-grid bottom" id="grid20"></div>
+    <ul id="bottom">
+      <div class="grid" id="grid29"></div>
+      <div class="grid" id="grid28"></div>
+      <div class="grid" id="grid27"></div>
+      <div class="grid" id="grid26"></div>
+      <div class="grid" id="grid25"></div>
+      <div class="grid" id="grid24"></div>
+      <div class="grid" id="grid23"></div>
+      <div class="grid" id="grid22"></div>
+      <div class="grid" id="grid21"></div>
+    </ul>
 
-      <div class="square-grid left" id="grid31"></div>
+    <div class="square-grid left" id="grid30"></div>
     <ul id="left">
-      <div class="grid" id="grid40"></div>
       <div class="grid" id="grid39"></div>
       <div class="grid" id="grid38"></div>
       <div class="grid" id="grid37"></div>
       <div class="grid" id="grid36"></div>
-      <div class="grid" id="grid35"><li>♟️</li><li>♟️</li></div>
+      <div class="grid" id="grid35"></div>
       <div class="grid" id="grid34"></div>
       <div class="grid" id="grid33"></div>
       <div class="grid" id="grid32"></div>
+      <div class="grid" id="grid31"></div>
     </ul>
 
 
@@ -103,13 +103,101 @@
     <div id="community-card"></div>
   </session>
 
-    <script src="lib/dice.js"></script>
+  <script src="lib/dice.js"></script>
 
   <script>
+  // public static void main(String[] args) {
   propertyList = [];
   playerList = [];
+  g = new gameboard(40,playerList)
 
-  gameboard = new gameboard(40,playerList)
+  let person = prompt("Please enter your name", "Test");
+  let name;
+  if (person == null || person == "") {
+    name = "User cancelled the prompt.";
+  } else {
+    console.log(person)
+    playerList.push(new player(person));
+  }
+
+
+
+  // // let turns = 0;
+  // // for (let i = 0; i < turns; i++) {
+  //   // roll dice
+  //   for (let j = 0; j < playerList.length; j++) {
+  //     p = playerList[j];
+  //     if (p.jail <= 0) {
+  //
+  //       move = rollDice();
+  //
+  //       // move and update location
+  //       console.log(p)
+  //       p.updateLocation(move);
+  //
+  //       // get current property
+  //       let currentProperty = g.board.get(p.getLocation());
+  //
+  //       console.log("Player " + p.getName() + " moves " + move + " steps to position "
+  //       + p.getLocation() + "(" + currentProperty.getColor() + ")");
+  //
+  //       let type = currentProperty.getType();
+  //
+  //       if (type=="chance") {
+  //         p.chance(playerList);
+  //       }
+  //       if (p.jail > 0)
+  //       break;
+  //
+  //       // if (type=="realestate") {
+  //       //   if (!currentProperty.owned) { // if no one owns property --> buy
+  //       //     console.log("Do you want to buy " + currentProperty.getInfo() + " for "
+  //       //     + currentProperty.getMarketPrice() + "? yes:1, no:0");
+  //       //     let answer = Integer.parseInt(scanner());
+  //       //     if (answer == 1) {
+  //       //       currentProperty.buyProperty(p);
+  //       //       p.addProperty(currentProperty);
+  //       //     }
+  //       //   } else {
+  //       //     if (currentProperty.getOwner().equals(p)) { // if player owns --> buy more
+  //       //       System.out.println("Do you want to buy more " + currentProperty.getInfo() + " for "
+  //       //       + currentProperty.getMarketPrice() + "? yes:1, no:0");
+  //       //       int answer = Integer.parseInt(scanner());
+  //       //       if (answer == 1) {
+  //       //         if (checkColor(currentProperty, p)) {
+  //       //           currentProperty.buyProperty(p);
+  //       //           p.addProperty(currentProperty);
+  //       //         }
+  //       //       }
+  //       //     } else { // otherwise pay rent
+  //       //       currentProperty.payRent(p);
+  //       //     }
+  //       //   }
+  //       // } else if (type.equals("gotojail")) {
+  //       //   if (!p.jailFreeCard) {
+  //       //     p.setJail();
+  //       //     p.setLocation(10);
+  //       //   } else
+  //       //   p.loseJailFreeCard();
+  //       // } else if (type.equals("nft")) {
+  //       //   System.out.println(p.name + " bought an NFT  for $200!");
+  //       //   p.subMoney(200);
+  //       // } else if (type.equals("tax")) {
+  //       //   System.out.println("It's tax season!");
+  //       //   p.subMoney(p.getMoney() / 10);
+  //       // } else if (type.equals("community")) {
+  //       //   p.community(playerList);
+  //       // }
+  //
+  //     } else {
+  //       console.log(p.name + " is in jail and has to wait " + p.jail + " turns!");
+  //       p.jail -= 1;
+  //     }
+  //
+  //     console.log("Player " + p.getName() + " has $" + p.getMoney());
+  //     // g.printGameboard();
+  //   }
+  // }
   </script>
 </body>
 

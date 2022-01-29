@@ -1,4 +1,4 @@
-class player{
+class player {
     // constructor(name, money, propertyList, currentLocation, size){
     //     this.name = name;
     //     this.money = money;
@@ -11,8 +11,9 @@ class player{
         this.name = name;
         this.money = 1500;
         this.propertyList = [];
-        this.currentLocation = 1;
-        this.size = 16;
+        this.currentLocation = 0;
+        this.size = 40;
+        this.jail = 0;
 
         //JS API
         //Create Player Object
@@ -59,6 +60,13 @@ class player{
 
         // this.currentLocation = (this.currentLocation + move) % this.size;
         this.currentLocation = this.currentLocation + move;
+        if (this.currentLocation >= this.size) {
+            console.log("You received $200 for passing \"GO!\"");
+            this.money += 200;
+        }
+
+        this.currentLocation = (this.currentLocation) % this.size;
+        console.log("Move to "+this.currentLocation);
 
         //JS API
         //Create Player Object

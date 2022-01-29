@@ -40,6 +40,8 @@ li {
   list-style-type: none; /* Remove bullets */
   padding: 0; /* Remove padding */
   margin: 0; /* Remove margins */
+  background-color: black;
+  color: white;
 }
 
 #chance-card,#community-card {
