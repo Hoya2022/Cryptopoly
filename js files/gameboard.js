@@ -80,4 +80,47 @@ class gameboard {
     }
     document.querySelector('#event').style.display = 'none';
   }
+
+  drew(type,title,subtitle,description) {
+      if(type) {
+      let card = document.querySelector(`#${type}-card`);
+
+      card.style.setProperty('left', 'calc(100% - (100% - 60px*9)/2 - 8px - 360px)');
+      card.style.setProperty('top', 'calc(20px + 60px*9 - 340px)');
+      card.style.setProperty('transform', 'rotate(90deg)');
+      card.style.setProperty('height', '300px');
+      card.style.setProperty('width', '200px');
+      card.style.setProperty('z-index', '1');
+
+      document.querySelector('#eventcard .card-header').textContent = title;
+      document.querySelector('#eventcard .card-title').textContent = subtitle;
+      document.querySelector('#eventcard .card-text').textContent = description;
+
+      setTimeout(
+        function() {
+        document.querySelector('#eventcard').style.display = "";
+      }, 700
+      )
+    } else {
+    document.querySelector('#eventcard').style.display = "none";
+
+    let allType = ['chance','community'];
+    for(let i = 0;i<allType.length; i++) {
+    let card = document.querySelector(`#${allType[i]}-card`);
+        if(allType[i]=="chance") {
+        card.style.setProperty('left', 'calc((100% - 60px*9 - 80px)/2 - 48px + 180px)');
+        card.style.setProperty('top', '180px');
+        } else {
+        card.style.setProperty('left', 'calc(100% - (100% - 60px*9)/2 - 8px - 200px)');
+        card.style.setProperty('top', 'calc(20px + 60px*9 - 140px )');
+        }
+    card.style.setProperty('transform', 'rotate(45deg)');
+    card.style.setProperty('height', '130px');
+    card.style.setProperty('width', '100px');
+    card.style.setProperty('z-index', '0');
+    }
+    }
+
+    }
+
 }

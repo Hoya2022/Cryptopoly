@@ -2,10 +2,18 @@ html, body {
   margin:0px;
 }
 
+#eventcard {
+  position: absolute;
+  top: calc(20px + 60px*4.5 - 10px );
+  left: calc(100% - (100% - 60px*9)/2 - 8px - 404px);
+  z-index: 20;
+  opacity: 0.9;
+}
+
 #event {
   position: absolute;
-  top: calc(20px + 60px*4 - 0px );
-  left: calc(100% - (100% - 60px*9)/2 - 8px - 400px);
+  top: calc(20px + 60px*4.5 - 10px );
+  left: calc(100% - (100% - 60px*9)/2 - 8px - 404px);
   z-index: 20;
 }
 #gameboard {
@@ -97,13 +105,53 @@ ul {
 #chance-card {
 background-color: red;
   top: 180px;
-left: calc((100% - 60px*9 - 80px)/2 - 48px + 180px)
+left: calc((100% - 60px*9 - 80px)/2 - 48px + 180px);
+    /* animation:chance 2s; */
+  transition-duration: 1s;
 }
 #community-card {
 background-color: pink;
 top: calc(20px + 60px*9 - 140px );
-left: calc(100% - (100% - 60px*9)/2 - 8px - 200px)
+left: calc(100% - (100% - 60px*9)/2 - 8px - 200px);
+    /* animation:community 2s; */
+  transition-duration: 1s;
 }
+
+/* @keyframes chance
+                {
+                from {
+                  top: 180px;
+                  left: calc((100% - 60px*9 - 80px)/2 - 48px + 180px);
+                  transform: rotate(45deg);
+                  height: 130px;
+                  width: 100px;
+                }
+                to{
+                  left: calc(100% - (100% - 60px*9)/2 - 8px - 360px);
+                  top:calc(20px + 60px*9 - 340px);
+                  transform: rotate(90deg);
+                  height: 300px;
+                  width: 200px;
+                }
+              }
+
+@keyframes community
+                {
+                from {
+                  left: calc(100% - (100% - 60px*9)/2 - 8px - 200px);
+                  top: calc(20px + 60px*9 - 140px );
+                  transform: rotate(45deg);
+                  height: 130px;
+                  width: 100px;
+                }
+                to{
+                  left: calc(100% - (100% - 60px*9)/2 - 8px - 360px);
+                  top:calc(20px + 60px*9 - 340px);
+                  transform: rotate(90deg);
+                  height: 300px;
+                  width: 200px;
+                }
+              } */
 
 .square-grid.top {
 left: calc((100% - 60px*9 - 128px)/2)
