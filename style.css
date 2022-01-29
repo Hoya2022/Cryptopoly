@@ -136,3 +136,10 @@ left: calc((100% - 60px*9 - 128px)/2)
 top: calc(20px + 60px*4 + 30px );
 left: calc(100% - (100% - 60px*9)/2 - 8px - 300px)
 }
+
+.dot{
+  background-color: floralwhite;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}

@@ -9,7 +9,7 @@ class player {
 
   constructor(name){
     this.name = name;
-    this.money = 1500;
+    this.money = 150000;
     this.propertyList = [];
     this.currentLocation = 0;
     this.size = 40;
@@ -136,7 +136,8 @@ class player {
               p.addProperty(currentProperty);
               alert(`${p.getName()} successfully purchased ${currentProperty.getInfo()}!`);
               this.print(`successfully purchased ${currentProperty.getInfo()}`);
-              this.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()} \n`;
+              this.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()}`;
+              this.addPropertyLevel(currentProperty);
             }
           } else{
             confirm("Insufficient Fund. Cannot buy this property.");
@@ -148,13 +149,14 @@ class player {
             answer = parseInt(answer);
             if (answer == 1) {
               // should have a maximum property level
-              if(currentProperty.numHouses === 5){
+              if(currentProperty.numHouses === 3){
                 alert("Property reached highest level.\nNo further update is allowed");
                 return;
               }
               // removed checkColor function!!!!!
               currentProperty.buyProperty(p);
               p.addProperty(currentProperty);
+              this.addPropertyLevel(currentProperty);
             }
           }
           else{ // owns by someone else, pay rent
@@ -299,6 +301,32 @@ class player {
     } else {
       this.print("");
       this.addMoney(10);
+    }
+  }
+
+  addPropertyLevel(currentProperty){
+    let currentGrid = document.querySelector('#grid'+this.currentLocation.toString());
+
+    if(currentProperty.location >= 1 && currentProperty.location <= 10){ // upper
+      let createDot = document.createElement("div");
+      createDot.classList.add("dot");
+      // createDot.classList.add("align-self-end");
+      currentGrid.appendChild(createDot);
+    }
+    else if(currentProperty.location >= 11 && currentProperty.location <= 20){ // right side
+      let createDot = document.createElement("div");
+      createDot.classList.add("dot");
+      currentGrid.appendChild(createDot);
+    }
+    else if(currentProperty.location >= 21 && currentProperty.location <= 30){ // bottom
+      let createDot = document.createElement("div");
+      createDot.classList.add("dot");
+      currentGrid.appendChild(createDot);
+    }
+    else{ // left
+      let createDot = document.createElement("div");
+      createDot.classList.add("dot");
+      currentGrid.appendChild(createDot);
     }
   }
 }
