@@ -134,13 +134,12 @@ class player {
             if (answer == 1) {
               currentProperty.buyProperty(p);
               p.addProperty(currentProperty);
-              // need to update to the screen (both in the board and in the Property message)
               alert(`${p.getName()} successfully purchased ${currentProperty.getInfo()}!`);
               this.print(`successfully purchased ${currentProperty.getInfo()}`);
               this.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()} \n`;
             }
           } else{
-            confirm("Insufficient Fund");
+            confirm("Insufficient Fund. Cannot buy this property.");
           }
         }
         else{ // if it is owned by someone
@@ -149,6 +148,10 @@ class player {
             answer = parseInt(answer);
             if (answer == 1) {
               // should have a maximum property level
+              if(currentProperty.numHouses === 5){
+                alert("Property reached highest level.\nNo further update is allowed");
+                return;
+              }
               // removed checkColor function!!!!!
               currentProperty.buyProperty(p);
               p.addProperty(currentProperty);
