@@ -87,7 +87,7 @@ class property{
         this.setOwner(p);
         this.addHouse();
         this.addRent(this.rent);
-        p.subMoney(this.rent);
+        p.subMoney(this.marketPrice);
 
         // console.log
         console.log("Purchase!");

@@ -118,15 +118,47 @@ class player {
         } else
         p.loseJailFreeCard();
       } else if (type == "nft") {
-        this.print(p.name + " bought an NFT  for $200!");
+        this.print(p.name + " bought an NFT for $200!");
         p.subMoney(200);
       } else if (type == "tax") {
         this.print("It's tax season!");
         p.subMoney(p.getMoney() / 10);
       } else if (type == "community") {
         p.community(playerList);
+      } else if(type == "realestate"){
+        if(currentProperty.owned == false){
+          if(p.getMoney() >= currentProperty.marketPrice){
+            let answer = prompt(`Do you want to buy ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
+            answer = parseInt(answer);
+            
+            if (answer == 1) {
+              currentProperty.buyProperty(p);
+              p.addProperty(currentProperty);
+              // need to update to the screen (both in the board and in the Property message)
+              alert(`${p.getName()} successfully purchased ${currentProperty.getInfo()}!`);
+              this.print(`successfully purchased ${currentProperty.getInfo()}`);
+              this.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()} \n`;
+            }
+          } else{
+            confirm("Insufficient Fund");
+          }
+        }
+        else{ // if it is owned by someone
+          if(currentProperty.getOwner().name == p.name){
+            let answer = prompt(`Do you want to upgrade ${currentProperty.getInfo()} for ${currentProperty.getMarketPrice()}? yes:1, no:0`);
+            answer = parseInt(answer);
+            if (answer == 1) {
+              // should have a maximum property level
+              // removed checkColor function!!!!!
+              currentProperty.buyProperty(p);
+              p.addProperty(currentProperty);
+            }
+          }
+          else{ // owns by someone else, pay rent
+            currentProperty.payRent(p);
+          }
+        }
       }
-
     } else {
       p.print(p.name + " is in jail and has to wait " + p.jail + " turns!");
       p.jail = p.jail-1;
