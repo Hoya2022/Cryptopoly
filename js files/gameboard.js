@@ -1,81 +1,80 @@
-class gameboard {
-  constructor(size, playerList) {
+class gameboard{
+  constructor(size, playerList){
     this.size = size;
     this.board = [];
     this.playerList = playerList;
     this.isMoving = false;
     this.createGameboard();
     this.promptEvent = false;
+    this.drewEvent = false;
   }
 
   createGameboard() {
-    for (let i = 0; i < this.size; i++) {
+    for(let i = 0; i < this.size; i++){
       let color = this.setGameboardColor(i);
       let type = this.setGameboardType(i);
-      if (type != "realestate") {
-        color = '';
-        document.querySelector('#grid' + i.toString()).textContent = type
+      if (type!="realestate") {
+          color = '';
+          document.querySelector('#grid'+i.toString()).textContent = type
       } else {
-        document.querySelector('#grid' + i.toString()).textContent = i
+          document.querySelector('#grid'+i.toString()).textContent = i
       }
       let p = new property(i, color, false, null, 0, 100, i * 10, type);
       this.board.push(p);
     }
   }
 
-  printGameboard() {
+  printGameboard(){
     // printing the UI
-    for (let i = 0; i < this.playerList.length; i++) {
+    for(let i = 0;i<this.playerList.length;i++) {
       this.playerList[i].update()
     }
-
-
   }
 
-  setGameboardColor(location) {
+  setGameboardColor(location){
     let interval = this.size / 8; // all elements are assigned to a color? No event location?
 
     if (location < interval)
-      return "brown";
+    return "brown";
     else if (location < interval * 2)
-      return "skyblue";
+    return "skyblue";
     else if (location < interval * 3)
-      return "pink";
+    return "pink";
     else if (location < interval * 4)
-      return "orange";
+    return "orange";
     else if (location < interval * 5)
-      return "red";
+    return "red";
     else if (location < interval * 6)
-      return "yellow";
+    return "yellow";
     else if (location < interval * 7)
-      return "green";
+    return "green";
     else
-      return "blue";
+    return "blue";
   }
 
   setGameboardType(location) {
     if (location % 5 == 0 && location % 10 != 0)
-      return "nft";
+        return "nft";
     else if (location == 7 || location == 22 || location == 36)
-      return "chance";
+        return "chance";
     else if (location == 2 || location == 17 || location == 33)
-      return "community";
+        return "community";
     else if (location == 4 || location == 12 || location == 28 || location == 38)
-      return "tax";
+        return "tax";
     else if (location == 0)
-      return "go";
+        return "go";
     else if (location == 10)
-      return "jail";
+        return "jail";
     else if (location == 20)
-      return "parking";
+        return "parking";
     else if (location == 30)
-      return "gotojail";
+        return "gotojail";
     else
-      return "realestate";
+        return "realestate";
   }
 
   prompt(answer) {
-    if (answer == 1) {
+    if(answer==1) {
       g.promptEvent();
     }
     document.querySelector('#event').style.display = 'none';
@@ -119,8 +118,89 @@ class gameboard {
     card.style.setProperty('width', '100px');
     card.style.setProperty('z-index', '0');
     }
+              setTimeout(
+                function() {
+                  g.drewEvent();
+              }, 700
+              )
     }
 
+
+    }
+
+    initializeCryto() {
+      let arrOfCrypto = [];
+      let names = ["Bitcoin", "Ethereum", "Tether", "Binance Coin", "Cardano", "HEX", "Solana", "XRP"];
+
+      for(let i = 0; i < 8; i++){
+          let info = [];
+          let currentName = names[i];
+          info.push(currentName);
+          info.push(randomStartingPrice());
+          info.push(0); // percent change
+          arrOfCrypto.push(info);
+      }
+
+      function randomStartingPrice(){
+          return Math.floor(Math.random() * 91) + 10;
+      }
+
+      function randomPercentage(){
+          let x = Math.random();
+          let y = Math.random();
+          if(x <= 0.5){
+              y = y * -1;
+          }
+          return y;
+      }
+
+      console.log(arrOfCrypto);
+
+      let tableCrypto = document.querySelector(".tbodyCrypto");
+      for(let i = 0; i < 8; i++){
+          let row = document.createElement("tr");
+          for(let j = 0; j < 3; j++){
+              let cell = document.createElement("td");
+              let cellText = document.createTextNode(arrOfCrypto[i][j]);
+              cell.appendChild(cellText);
+              row.appendChild(cell);
+          }
+          row.classList.add("dummy");
+          tableCrypto.appendChild(row);
+      }
+
+      let rollBtn1 = document.querySelector(".rollBtn");
+      //implement
+      rollBtn1.addEventListener("click", () =>{
+          // update the percentage
+          let newArr = [];
+          for(let i = 0; i < 8; i++){
+              let currentChange = randomPercentage();
+              newArr.push(currentChange);
+          }
+
+          for(let i = 0; i < 8; i++){
+              arrOfCrypto[i][1] = arrOfCrypto[i][1] * (1 + newArr[i]);
+              arrOfCrypto[i][2] = newArr[i];
+          }
+          console.log(arrOfCrypto);
+
+          for(let i = 0; i < 8; i++){
+              document.querySelector(".dummy").remove();
+          }
+
+          for(let i = 0; i < 8; i++){
+              let row = document.createElement("tr");
+              for(let j = 0; j < 3; j++){
+                  let cell = document.createElement("td");
+                  let cellText = document.createTextNode(arrOfCrypto[i][j]);
+                  cell.appendChild(cellText);
+                  row.appendChild(cell);
+              }
+              row.classList.add("dummy");
+              tableCrypto.appendChild(row);
+          }
+      })
     }
 
 }

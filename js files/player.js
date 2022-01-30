@@ -157,7 +157,7 @@ class player {
     let diff = location - previousLocation;
 
     if (previousLocation > location)
-      diff = (40 - previousLocation) + (location - 0);
+    diff = (40 - previousLocation) + (location - 0);
 
     for (let i = 0; i < diff + 1; i++) {
       setTimeout(
@@ -198,115 +198,193 @@ class player {
 
   chance(playerList) {
     let chance = Math.floor(Math.random() * (16 + 1 - 0) + 0);
+    let p = this;
     this.print("You got a chance card!");
     if (chance <= 7) {
+
       let advance = Math.floor(Math.random() * (40 + 1 - 0) + 0);;
-      this.updateLocation(advance);
-      g.drew("change","You advance " + advance + " steps to " + this.currentLocation + "!")
-      // this.print("You advance " + advance + " steps to " + this.currentLocation + "!");
+      g.drewEvent = function() {
+        p.updateLocation(advance);
+      }
+      g.drew("chance","Move","Chance Card","You advance " + advance + " steps to " + this.currentLocation + "!")
+      this.print("You advance " + advance + " steps to " + this.currentLocation + "!");
     } else if (chance == 8) {
-      // this.print("The bank pays you dividends!");
-      g.drew("The bank pays you dividends! Gain 50")
-      this.addMoney(50);
+      this.print("The bank pays you dividends!");
+      g.drewEvent = function() {
+        p.addMoney(50);
+      }
+      g.drew("chance","$$$","Chance Card","The bank pays you dividends! Gain 50")
     } else if (chance == 9) {
-      // this.print("You get a Get Out of Jail Free Card!");
-      g.drew("You get a Get Out of Jail Free Card!")
-      this.addJailFreeCard();
+
+      this.print("You get a Get Out of Jail Free Card!");
+      g.drewEvent = function() {
+        p.addJailFreeCard();
+      }
+      g.drew("chance","Jail","Chance Card","You get a Get Out of Jail Free Card!")
     } else if (chance == 10) {
-      // this.print("Go back 3 spaces!");
-      g.drew("Go back 3 spaces!")
-      this.updateLocation(-3);
+      this.print("Go back 3 spaces!");
+      g.drewEvent = function() {
+        p.updateLocation(-3);
+      }
+      g.drew("chance","Move","Chance Card","Go back 3 spaces!")
     } else if (chance == 11) {
       this.print("You go to jail!");
-      g.drew("Go back 3 spaces!")
+      g.drewEvent = function() {
+        p.setJail();
+        p.moveTo(this.currentLocation, 10, 100, false)
+      }
+      g.drew("chance","Jail","Chance Card","You go to jail!")
       // this.setLocation(20);
-      this.setJail();
-      this.moveTo(this.currentLocation, 10, 100, false)
     } else if (chance == 12) {
       this.print("You pay repairs for each house you own!");
-      for (let i = 0; i < propertyList.length; i++) {
-        let houses = propertyList[i].numHouses;
-        this.subMoney(25 * houses);
+      g.drewEvent = function() {
+        for (let i = 0; i < propertyList.length; i++) {
+          let houses = propertyList[i].numHouses;
+          p.subMoney(25 * houses);
+        }
       }
+      g.drew("chance","$$$","Chance Card","You pay repairs for each house you own!")
     } else if (chance == 13) {
       this.print("You get a speeding fine!");
-      this.subMoney(15);
+
+      g.drewEvent = function() {
+        p.subMoney(15);
+      }
+      g.drew("chance","$$$","Chance Card","You get a speeding fine!")
     } else if (chance == 14) {
       this.print("Move up to nearest NFT!");
-      while (!(this.currentLocation % 5 == 0 && this.currentLocation % 10 != 0))
-        this.updateLocation(1);
+      g.drewEvent = function() {
+        while (!(this.currentLocation % 5 == 0 && this.currentLocation % 10 != 0))
+        p.updateLocation(1);
+      }
+      g.drew("chance","Move","Chance Card","Move up to nearest NFT!")
     } else if (chance == 15) {
       this.print("You are the chairman. Pay everyone $50 each.");
-      for (let i = 0; i < playerList.length; i++) {
-        playerList[i].addMoney(50);
-        this.subMoney(50);
+      g.drewEvent = function() {
+        for (let i = 0; i < playerList.length; i++) {
+          playerList[i].addMoney(50);
+          p.subMoney(50);
+        }
       }
+      g.drew("chance","$$$","Chance Card","You are the chairman. Pay everyone $50 each.")
     } else {
       this.print("Your building loam matures. Collect $150.");
-      this.addMoney(150);
+      g.drewEvent = function() {
+        p.addMoney(150);
+      }
+      g.drew("chance","$$$","Chance Card","Your building loam matures. Collect $150.")
     }
 
   }
 
   community(playerList) {
     let community = Math.floor(Math.random() * (16 - 0) + 0);
+    let p = this;
     this.print("You got a commmunity card!")
     if (community == 0) {
       this.print("Advance to Go");
-      this.updateLocation(this.size - this.currentLocation);
+      g.drewEvent = function() {
+        p.updateLocation(this.size - this.currentLocation);
+      }
+      g.drew("community","Go","Community Card","Advance to Go")
     } else if (community == 1) {
       this.print("Bank error in your favor. Collect $200");
-      this.addMoney(200);
+      g.drewEvent = function() {
+        p.addMoney(200);
+      }
+      g.drew("community","$$$","Community Card","Bank error in your favor. Collect $200")
     } else if (community == 2) {
       this.print("Doctor’s fee. Pay $50");
-      this.subMoney(50);
+      g.drewEvent = function() {
+          p.subMoney(50);
+      }
+      g.drew("community","$$$","Community Card","Doctor’s fee. Pay $50")
     } else if (community == 3) {
       this.print("From sale of stock you get $50");
-      this.addMoney(50);
+      g.drewEvent = function() {
+        p.addMoney(50);
+      }
+      g.drew("community","$$$","Community Card","From sale of stock you get $50")
     } else if (community == 4) {
       this.print("Get Out of Jail Free");
-      this.addJailFreeCard();
+      g.drewEvent = function() {
+        p.addJailFreeCard();
+      }
+      g.drew("community","Jail","Community Card","Get Out of Jail Free")
     } else if (community == 5) {
       this.print("Go to Jail. Go directly to jail, do not pass Go, do not collect $200");
+      g.drewEvent = function() {
+        p.setJail();
+        p.moveTo(this.currentLocation, 10, 100, false)
+      }
+      g.drew("community","Jail","Community Card","Go to Jail. Go directly to jail, do not pass Go, do not collect $200")
       // this.setLocation(20);
-      this.setJail();
-      this.moveTo(this.currentLocation, 10, 100, false)
     } else if (community == 6) {
       this.print("Holiday fund matures. Receive $100");
-      this.addMoney(100);
+      g.drewEvent = function() {
+        p.addMoney(100);
+      }
+      g.drew("community","$$$","Community Card","Holiday fund matures. Receive $100")
     } else if (community == 7) {
       this.print("Income tax refund. Collect $20");
-      this.addMoney(20);
+      g.drewEvent = function() {
+        p.addMoney(20);
+      }
+      g.drew("community","$$$","Community Card","Income tax refund. Collect $20")
     } else if (community == 8) {
       this.print("It is your birthday. Collect $10 from every player");
-      for (let i = 0; i < playerList.length; i++) {
-        playerList[i].subMoney(10);
-        this.addMoney(10);
+      g.drewEvent = function() {
+        for (let i = 0; i < playerList.length; i++) {
+          playerList[i].subMoney(10);
+          p.addMoney(10);
+        }
       }
+      g.drew("community","$$$","Community Card","It is your birthday. Collect $10 from every player")
     } else if (community == 9) {
       this.print("Life insurance matures. Collect $100");
-      this.addMoney(100);
+      g.drewEvent = function() {
+        p.addMoney(100);
+      }
+      g.drew("community","$$$","Community Card","Life insurance matures. Collect $100")
     } else if (community == 10) {
       this.print("Pay hospital fees of $100");
-      this.subMoney(100);
+      g.drewEvent = function() {
+        p.subMoney(100);
+      }
+      g.drew("community","$$$","Community Card","Pay hospital fees of $100")
     } else if (community == 11) {
       this.print("Pay school fees of $50");
-      this.subMoney(50);
+      g.drewEvent = function() {
+          p.subMoney(50);
+      }
+      g.drew("community","$$$","Community Card","Pay school fees of $50")
     } else if (community == 12) {
       this.print("Receive $25 consultancy fee");
-      this.addMoney(25);
+      g.drewEvent = function() {
+        p.addMoney(25);
+      }
+      g.drew("community","$$$","Community Card","Receive $25 consultancy fee")
     } else if (community == 13) {
       this.print("You are assessed for street repair. $40 per house.");
-      for (let i = 0; i < propertyList.length; i++) {
-        let houses = propertyList[i].numHouses;
-        this.addMoney(40 * houses);
+      g.drewEvent = function() {
+        for (let i = 0; i < propertyList.length; i++) {
+          let houses = propertyList[i].numHouses;
+          p.addMoney(40 * houses);
+        }
       }
+      g.drew("community","$$$","Community Card","You are assessed for street repair. $40 per house.")
     } else if (community == 14) {
       this.print("You have won second prize in a beauty contest. Collect $10");
-      this.addMoney(200);
+      g.drewEvent = function() {
+        p.addMoney(200);
+      }
+      g.drew("community","$$$","Community Card","You have won second prize in a beauty contest. Collect $10")
     } else {
       this.print("");
-      this.addMoney(10);
+      g.drewEvent = function() {
+        p.addMoney(10);
+      }
+      g.drew("community","$$$","Community Card","You got $10")
     }
 
   }
@@ -352,7 +430,7 @@ class player {
         // p.setLocation(10);
         this.moveTo(this.currentLocation, 10, 100, false)
       } else
-        p.loseJailFreeCard();
+      p.loseJailFreeCard();
     } else if (type == "nft") {
       this.print(p.name + " bought an NFT for $200!");
       p.subMoney(200);
