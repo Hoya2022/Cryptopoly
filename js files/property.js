@@ -1,5 +1,5 @@
-class property{
-    constructor(location, color, owned, owner, numHouses, marketPrice, rent, type){
+class property {
+    constructor(location, color, owned, owner, numHouses, marketPrice, rent, type) {
         this.location = location;
         this.color = color;
         this.owned = owned;
@@ -12,54 +12,54 @@ class property{
         this.setColor(this.color)
     }
 
-    getLocation(){
+    getLocation() {
         return this.location;
     }
 
-    setColor(c){
+    setColor(c) {
         this.color = c;
 
         //JS API
-        let grid = document.querySelector('#grid'+this.location.toString());
+        let grid = document.querySelector('#grid' + this.location.toString());
         grid.style.backgroundColor = this.color;
         //JS API
     }
-    getColor(){
+    getColor() {
         return this.color;
     }
 
-    setOwned(){
+    setOwned() {
         this.owned = true;
     }
-    getOwned(){
+    getOwned() {
         return this.owned;
     }
 
-    setMarketPrice(price){
+    setMarketPrice(price) {
         this.marketPrice = price;
     }
-    getMarketPrice(){
+    getMarketPrice() {
         return this.marketPrice;
     }
 
-    addHouse(){
+    addHouse() {
         this.numHouses += 1;
     }
-    getHouse(){
+    getHouse() {
         return this.numHouses;
     }
 
-    setOwner(p){
+    setOwner(p) {
         this.owner = p;
     }
-    getOwner(){
+    getOwner() {
         return this.owner;
     }
 
-    addRent(r){
+    addRent(r) {
         this.rent += r;
     }
-    getRent(){
+    getRent() {
         return this.rent;
     }
 
@@ -67,18 +67,18 @@ class property{
         return this.type;
     }
 
-    getInfo(){
+    getInfo() {
         return `${this.getLocation()} (${this.getColor()})`;
     }
 
-    buyProperty(p){
-        if(this.owned && this.owner !== p){
+    buyProperty(p) {
+        if (this.owned && this.owner !== p) {
             console.log("Not your property. Cannot buy.");
             // add alert or some
             return;
         }
 
-        if(p.getMoney() - this.marketPrice < 0){
+        if (p.getMoney() - this.marketPrice < 0) {
             console.log("Not enough money.");
             return;
         }
@@ -93,11 +93,24 @@ class property{
         console.log("Purchase!");
     }
 
-    payRent(p){
+    payRent(p) {
         // console.log
+        let sumP = 0;
+        let sumOwner = 0;
+        for (let i = 0; i < p.priceList.length; i++) {
+            sumP += p.priceList[i];
+            sumOwner += this.owner.priceList[i];
+        }
+
+        if (sumP > sumOwner) {
+            this.print(p.getName() + " has more crypto assets than " + this.owner.getName() + ", so " + p.getName() + " does not have to pay rent!");
+            return;
+        }
+
+
         console.log(`Player ${p.getName()} needs to pay rent to ${this.getOwner().getName()}`);
 
-        if(p.getMoney() - this.rent < 0){
+        if (p.getMoney() - this.rent < 0) {
             console.log("Not enough money");
             // maybe game over for this player
             return;

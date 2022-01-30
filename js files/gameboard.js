@@ -10,6 +10,9 @@ class gameboard {
     this.setPreviousPrice();
     this.drewEvent = false;
     this.player = 0;
+    this.arrOfCrypto = [];
+    this.initialize = false;
+    this.beforeTurn = true;
   }
 
   switchPlayer() {
@@ -42,7 +45,7 @@ class gameboard {
     //   console.log(person)
     //   playerList.push(new player(person,0));
     // }
-    this.initializeCryto()
+    this.initializeCrypto()
 
   }
 
@@ -171,28 +174,49 @@ class gameboard {
 
   }
 
-  initializeCryto() {
-
+  initializeCrypto() {
+    this.initialize = true;
     this.cryptoInfo();
   }
 
+  cryptoTableGenerator(tableCrypto) {
+    for (let i = 0; i < 8; i++) {
+      let row = document.createElement("tr");
+      for (let j = 0; j < 6; j++) {
+        let cell = document.createElement("td");
+        let cellText = document.createTextNode(this.arrOfCrypto[i][j]);
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+      }
+      row.classList.add("dummy");
+      tableCrypto.appendChild(row);
+    }
+  }
+
   cryptoInfo() {
-    let arrOfCrypto = [];
+
     let names = ["Bitcoin", "Ethereum", "Tether", "Binance Coin", "Cardano", "HEX", "Solana", "XRP"];
     let numPlayers = this.playerList.length;
     let turn = 0;
-
     let p = this.playerList[this.player];
 
-    for (let i = 0; i < 8; i++) {
-      let info = [];
-      let currentName = names[i];
-      info.push(currentName);
-      info.push(randomStartingPrice());
-      info.push(0); // percent change
-      info.push(p.priceList[i]);
-      info.push(p.cryptoList[i]);
-      arrOfCrypto.push(info);
+    if (this.beforeTurn && !this.initialize) {
+      p = this.playerList[(this.player + 1) % 2];
+    }
+
+    if (this.initialize) {
+      for (let i = 0; i < 8; i++) {
+        let info = [];
+        let currentName = names[i];
+        info.push(currentName);
+        info.push(randomStartingPrice());
+        info.push(0); // percent change
+        info.push(p.priceList[i]);
+        info.push(p.cryptoList[i]);
+        this.arrOfCrypto.push(info);
+      }
+
+      this.initialize = false;
     }
 
     function randomStartingPrice() {
@@ -208,14 +232,15 @@ class gameboard {
       return y;
     }
 
-    console.log(arrOfCrypto);
+    console.log(this.arrOfCrypto);
+
 
     let tableCrypto = document.querySelector(".tbodyCrypto");
     for (let i = 0; i < 8; i++) {
       let row = document.createElement("tr");
-      for (let j = 0; j < 5; j++) {
+      for (let j = 0; j < 6; j++) {
         let cell = document.createElement("td");
-        let cellText = document.createTextNode(arrOfCrypto[i][j]);
+        let cellText = document.createTextNode(this.arrOfCrypto[i][j]);
         cell.appendChild(cellText);
         row.appendChild(cell);
       }
@@ -223,52 +248,59 @@ class gameboard {
       tableCrypto.appendChild(row);
     }
 
-    let rollBtn1 = document.querySelector(".rollBtn");
-    rollBtn1.addEventListener("click", () => {
-      if (turn != 0 && turn % numPlayers == 0) {
-        // update the percentage
-        let newArr = [];
-        for (let i = 0; i < 8; i++) {
-          let currentChange = randomPercentage();
-          newArr.push(currentChange);
-        }
-
-        for (let i = 0; i < 8; i++) {
-          arrOfCrypto[i][1] = Math.round(arrOfCrypto[i][1] * (1 + newArr[i]) * 100) / 100;
-          arrOfCrypto[i][2] = Math.round(newArr[i] * 100) / 100;
-          if (p.newCryptoIndex == i && p.buyCrypto == true) {
-            arrOfCrypto[i][3] = (arrOfCrypto[i][3] * arrOfCrypto[i][4] + this.previousPrice[i] * p.newCryptoNum) / p.cryptoList[i];
-            p.priceList[i] = arrOfCrypto[i][3];
-          } else
-            arrOfCrypto[i][3] = p.priceList[i];
-          arrOfCrypto[i][3] = Math.round(arrOfCrypto[i][3] * 100) / 100;
-          arrOfCrypto[i][4] = p.cryptoList[i];
-        }
-
-
-        console.log(arrOfCrypto);
-      }
+    // let rollBtn1 = document.querySelector(".rollBtn");
+    let newArr = [];
+    if (turn != 0 && turn % (numPlayers * 2) == 0) {
+      // update the percentage
 
       for (let i = 0; i < 8; i++) {
-        document.querySelector(".dummy").remove();
+        let currentChange = randomPercentage();
+        newArr.push(currentChange);
       }
+    } else {
+      for (let i = 0; i < 8; i++) {
+        newArr.push(0);
+      }
+    }
 
-      for (let i = 0; i < 8; i++) {
-        let row = document.createElement("tr");
-        for (let j = 0; j < 5; j++) {
-          let cell = document.createElement("td");
-          let cellText = document.createTextNode(arrOfCrypto[i][j]);
-          cell.appendChild(cellText);
-          row.appendChild(cell);
-        }
-        row.classList.add("dummy");
-        tableCrypto.appendChild(row);
-      }
-      for (let i = 0; i < 8; i++) {
-        this.previousPrice[i] = arrOfCrypto[i][1];
-      }
-      turn++;
-    })
+    let p1 = this.playerList[0];
+    let p2 = this.playerList[1];
+
+    for (let i = 0; i < 8; i++) {
+      this.arrOfCrypto[i][1] = Math.round(this.arrOfCrypto[i][1] * (1 + newArr[i]) * 100) / 100;
+      this.arrOfCrypto[i][2] = Math.round(newArr[i] * 100) / 100;
+      if (p.newCryptoIndex == i && p.buyCrypto == true) {
+        // this.arrOfCrypto[i][3] = (this.arrOfCrypto[i][3] * this.arrOfCrypto[i][4] + this.previousPrice[i] * p.newCryptoNum) / p.cryptoList[i];
+        // p.priceList[i] = this.arrOfCrypto[i][3];
+        this.arrOfCrypto[i][3] = p.priceList[i];
+      } else
+        this.arrOfCrypto[i][3] = this.arrOfCrypto[i][3];
+      this.arrOfCrypto[i][3] = Math.round(this.arrOfCrypto[i][3] * 100) / 100;
+      this.arrOfCrypto[i][4] = p.cryptoList[i];
+      this.arrOfCrypto[i][5] = p1.cryptoList[i] + "/" + p2.cryptoList[i];
+    }
+
+    console.log(p.priceList);
+    console.log(p.cryptoList);
+    console.log(this.arrOfCrypto);
+
+    //what's this?
+    for (let i = 0; i < 8; i++) {
+      document.querySelector(".dummy").remove();
+    }
+
+    this.cryptoTableGenerator(tableCrypto);
+
+
+    for (let i = 0; i < 8; i++) {
+      this.previousPrice[i] = this.arrOfCrypto[i][1];
+    }
+
+    //chen's print table method
+    this.printCryptothis(this.arrOfCrypto);
+
+    turn++;
+
 
 
 

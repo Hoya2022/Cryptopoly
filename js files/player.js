@@ -438,6 +438,7 @@ class player {
 
   triggerEvent() {
     this.buyCrypto = false;
+    g.beforeTurn = true;
 
     let p = this;
     let currentProperty = g.board[this.getLocation()];
@@ -466,7 +467,9 @@ class player {
         this.newCryptoIndex = this.names.indexOf(coin);
         //buy 3 bitcoin
         this.newCryptoNum = 3;
+        this.priceList[this.newCryptoIndex] = (this.cryptoList[this.newCryptoIndex] * this.priceList[this.newCryptoIndex] + this.newCryptoNum * g.arrOfCrypto[this.newCryptoIndex][1]) / (this.cryptoList[this.newCryptoIndex] + this.newCryptoNum);
         this.cryptoList[this.newCryptoIndex] += this.newCryptoNum;
+
       }
 
     } else if (type == "tax") {
@@ -540,8 +543,10 @@ class player {
       }
     }
 
+    g.beforeTurn = false;
     g.cryptoInfo();
     g.printGameboard();
     this.checkBankruptcy();
+    g.switchPlayer();
   }
 }
