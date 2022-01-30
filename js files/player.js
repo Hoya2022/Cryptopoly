@@ -12,7 +12,7 @@ class player {
     this.money = 1500;
     this.propertyList = [];
     this.cryptoList = [0, 0, 0, 0, 0, 0, 0, 0];
-    this.priceList = [100, 100, 100, 100, 100, 100, 100, 100];
+    this.priceList = [0, 0, 0, 0, 0, 0, 0, 0];
     this.setCryptoList();
     this.setPriceList();
     this.currentLocation = 0;
@@ -74,7 +74,7 @@ class player {
   }
 
   setJail() {
-    this.jail = 3;
+    this.jail = 5;
   }
 
   addJailFreeCard() {
