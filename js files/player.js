@@ -218,17 +218,21 @@ class player {
   }
 
   chance(playerList) {
-    let chance = Math.floor(Math.random() * (16 + 1 - 0) + 0);
+    // let chance = Math.floor(Math.random() * (16 + 1 - 0) + 0);
+      let chance = 3;
+      if(chance==14)
+        chance=15
     let p = this;
     this.print("You got a chance card!");
     if (chance <= 7) {
 
       let advance = Math.floor(Math.random() * (40 + 1 - 0) + 0);;
       g.drewEvent = function () {
-        p.updateLocation(advance);
+        // p.updateLocation(advance);
+        p.moveTo(p.currentLocation, advance, 100)
       }
-      g.drew("chance", "Move", "Chance Card", "You advance " + advance + " steps to " + this.currentLocation + "!")
-      this.print("You advance " + advance + " steps to " + this.currentLocation + "!");
+      g.drew("chance", "Move", "Chance Card", "You move to "+advance+"!")
+      this.print("You move to "+advance+"!");
     } else if (chance == 8) {
       this.print("The bank pays you dividends!");
       g.drewEvent = function () {
@@ -243,16 +247,21 @@ class player {
       }
       g.drew("chance", "Jail", "Chance Card", "You get a Get Out of Jail Free Card!")
     } else if (chance == 10) {
-      this.print("Go back 3 spaces!");
+      this.print("Go next 3 spaces!");
       g.drewEvent = function () {
-        p.updateLocation(-3);
+        // p.updateLocation(-3);
+        let newLocation = p.currentLocation+3;
+        if(newLocation > 40)
+          newLocation = newLocation%p.size;
+
+        p.moveTo(p.currentLocation, newLocation, 100)
       }
-      g.drew("chance", "Move", "Chance Card", "Go back 3 spaces!")
+      g.drew("chance", "Move", "Chance Card", "Go next 3 spaces!")
     } else if (chance == 11) {
       this.print("You go to jail!");
       g.drewEvent = function () {
         p.setJail();
-        p.moveTo(this.currentLocation, 10, 100, false)
+        p.moveTo(p.currentLocation, 10, 100, false)
       }
       g.drew("chance", "Jail", "Chance Card", "You go to jail!")
       // this.setLocation(20);
@@ -273,11 +282,16 @@ class player {
       }
       g.drew("chance", "$$$", "Chance Card", "You get a speeding fine!")
     } else if (chance == 14) {
-      this.print("Move up to nearest NFT!");
-      g.drewEvent = function () {
-        while (!(this.currentLocation % 5 == 0 && this.currentLocation % 10 != 0))
-          p.updateLocation(1);
-      }
+      // this.print("Move up to nearest NFT!");
+      // g.drewEvent = function () {
+      //   while (p.currentLocation != 5 && p.currentLocation != 15 && p.currentLocation != 25 && p.currentLocation != 35) {
+      //     // p.updateLocation(1);
+      //     let newLocation = p.currentLocation + 1;
+      //     if(newLocation > 40)
+      //       newLocation = newLocation%p.size;
+      //     p.moveTo(p.currentLocation, newLocation, 100)
+      //   }
+      // }
       g.drew("chance", "Move", "Chance Card", "Move up to nearest NFT!")
     } else if (chance == 15) {
       this.print("You are the chairman. Pay everyone $50 each.");
@@ -300,12 +314,14 @@ class player {
 
   community(playerList) {
     let community = Math.floor(Math.random() * (16 - 0) + 0);
+      // let community = 0;
     let p = this;
     this.print("You got a commmunity card!")
     if (community == 0) {
       this.print("Advance to Go");
       g.drewEvent = function () {
-        p.updateLocation(this.size - this.currentLocation);
+        // p.updateLocation(this.size - this.currentLocation);
+        p.moveTo(p.currentLocation, 0, 100)
       }
       g.drew("community", "Go", "Community Card", "Advance to Go")
     } else if (community == 1) {
@@ -336,7 +352,7 @@ class player {
       this.print("Go to Jail. Go directly to jail, do not pass Go, do not collect $200");
       g.drewEvent = function () {
         p.setJail();
-        p.moveTo(this.currentLocation, 10, 100, false)
+        p.moveTo(p.currentLocation, 10, 100, false)
       }
       g.drew("community", "Jail", "Community Card", "Go to Jail. Go directly to jail, do not pass Go, do not collect $200")
       // this.setLocation(20);
