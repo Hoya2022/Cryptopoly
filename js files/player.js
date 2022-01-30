@@ -11,13 +11,21 @@ class player {
     this.name = name;
     this.money = 1500;
     this.propertyList = [];
+    this.cryptoList = [];
+    this.priceList = [];
+    this.setCryptoList();
+    this.setPriceList();
     this.currentLocation = 0;
     this.size = 40;
     this.jail = 0;
     this.jailFreeCard = false;
     this.message = [];
     this.id = id;
-    this.cryptoList = [];
+    this.newCryptoNum = 0;
+    this.newCryptoIndex = 0;
+    this.buyCrypto = false;
+    this.names = ["Bitcoin", "Ethereum", "Tether", "Binance Coin", "Cardano", "HEX", "Solana", "XRP"];
+
 
     //JS API
     //Create Player Object
@@ -82,7 +90,15 @@ class player {
   }
 
   setCryptoList() {
+    for (let i = 0; i < 8; i++)
+      if (this.cryptoList[i] == null)
+        this.cryptoList.push(0);
+  }
 
+  setPriceList() {
+    for (let i = 0; i < 8; i++)
+      if (this.priceList[i] == null)
+        this.priceList.push(0);
   }
 
   updateLocation(move) {
@@ -202,7 +218,7 @@ class player {
     if (chance <= 7) {
       let advance = Math.floor(Math.random() * (40 + 1 - 0) + 0);;
       this.updateLocation(advance);
-      g.drew("change","You advance " + advance + " steps to " + this.currentLocation + "!")
+      g.drew("change", "You advance " + advance + " steps to " + this.currentLocation + "!")
       // this.print("You advance " + advance + " steps to " + this.currentLocation + "!");
     } else if (chance == 8) {
       // this.print("The bank pays you dividends!");
@@ -338,6 +354,8 @@ class player {
   }
 
   triggerEvent() {
+    this.buyCrypto = false;
+
     let p = this;
     let currentProperty = g.board[this.getLocation()];
     let type = currentProperty.getType();
@@ -354,8 +372,20 @@ class player {
       } else
         p.loseJailFreeCard();
     } else if (type == "nft") {
-      this.print(p.name + " bought an NFT for $200!");
-      p.subMoney(200);
+      // this.print(p.name + " bought an NFT for $200!");
+      // p.subMoney(200);
+
+      this.print("You can buy crypto!");
+      if (true) {
+        //buy "Bitcoin";
+        let coin = "Bitcoin";
+        this.buyCrypto = true;
+        this.newCryptoIndex = this.names.indexOf(coin);
+        //buy 3 bitcoin
+        this.newCryptoNum = 3;
+        this.cryptoList[this.newCryptoIndex] += this.newCryptoNum;
+      }
+
     } else if (type == "tax") {
       this.print("It's tax season!");
       p.subMoney(p.getMoney() / 10);
