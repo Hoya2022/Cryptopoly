@@ -11,8 +11,8 @@ class player {
     this.name = name;
     this.money = 1500;
     this.propertyList = [];
-    this.cryptoList = [0,0,0,0,0,0,0,0];
-    this.priceList = [0,0,0,0,0,0,0,0];
+    this.cryptoList = [0, 0, 0, 0, 0, 0, 0, 0];
+    this.priceList = [0, 0, 0, 0, 0, 0, 0, 0];
     this.setCryptoList();
     this.setPriceList();
     this.currentLocation = 0;
@@ -437,6 +437,7 @@ class player {
   }
 
   triggerEvent() {
+    g.cryptoInfo();
     this.buyCrypto = false;
     g.beforeTurn = true;
 
@@ -532,7 +533,7 @@ class player {
     }
 
     g.beforeTurn = false;
-    g.cryptoInfo();
+    // g.cryptoInfo();
     g.printGameboard();
     this.checkBankruptcy();
     g.switchPlayer();

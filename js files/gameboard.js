@@ -7,10 +7,11 @@ class gameboard {
     this.createGameboard();
     this.promptEvent = false;
     this.previousPrice = [];
-    this.arrOfCrypto = ["Bitcoin", "Ethereum", "Tether", "Binance Coin", "Cardano", "HEX", "Solana", "XRP"];
+    this.arrOfCrypto = [[0, 0, 0, "0/0"], [0, 0, 0, "0/0"], [0, 0, 0, "0/0"], [0, 0, 0, "0/0"], [0, 0, 0, "0/0"], [0, 0, 0, "0/0"], [0, 0, 0, "0/0"], [0, 0, 0, "0/0"]];
     this.setPreviousPrice();
     this.drewEvent = false;
     this.player = 0;
+    this.turn = 0;
   }
 
   startGame() {
@@ -168,11 +169,13 @@ class gameboard {
 
   toggleMarket(toggle) {
 
-    if(toggle==0) {
-    document.querySelector('#cryptomarket').style.display = "none";
-  } else {
-    document.querySelector('#cryptomarket').style.display = "";
-  }
+    if (toggle == 0) {
+      document.querySelector('#cryptomarket').style.display = "none";
+    } else {
+      document.querySelector('#cryptomarket').style.display = "";
+    }
+
+
   }
 
   initializeCryto() {
@@ -181,111 +184,121 @@ class gameboard {
   }
 
   buyCoin(coinIndex) {
-    let p = this.playerList[this.player]
-    p.buyCrypto = true;
-    // this.newCryptoIndex = this.names.indexOf(coin);
-    //buy 3 bitcoin
-    p.newCryptoIndex = coinIndex;
-    p.newCryptoNum = 1;
-    p.priceList[p.newCryptoIndex] = (p.cryptoList[p.newCryptoIndex] * p.priceList[p.newCryptoIndex]
-                                    + p.newCryptoNum * this.arrOfCrypto[p.newCryptoIndex][1]) / (p.cryptoList[p.newCryptoIndex] + p.newCryptoNum);
-    p.cryptoList[p.newCryptoIndex] += p.newCryptoNum;
+
+    let p = this.playerList[(this.player + 1) % 2]
+    let otherP = this.playerList[this.player];
+    // if (this.player == 1) {
+    //   otherP = this.playerList[this.player]
+    //   p = this.playerList[(this.player + 1) % 2];
+    // }
+
+    if (p.getMoney() - this.arrOfCrypto[p.newCryptoIndex][0] < 0) {
+      alert("You are out of money!");
+      return;
+    }
+
+    if (this.player == 1) {
+      p.buyCrypto = true;
+      // this.newCryptoIndex = this.names.indexOf(coin);
+      //buy 3 bitcoin
+      p.newCryptoIndex = coinIndex;
+      p.newCryptoNum = 1;
+      p.priceList[p.newCryptoIndex] = (p.cryptoList[p.newCryptoIndex] * p.priceList[p.newCryptoIndex]
+        + p.newCryptoNum * this.arrOfCrypto[p.newCryptoIndex][0]) / (p.cryptoList[p.newCryptoIndex] + p.newCryptoNum);
+      p.cryptoList[p.newCryptoIndex] += p.newCryptoNum;
+
+      // let otherP = this.playerList[(this.player + 1) % 2];
+
+      for (let i = 0; i < 8; i++) {
+        this.arrOfCrypto[i][2] = Math.round(p.priceList[i] * 100) / 100;
+        // this.arrOfCrypto[i][3] = p.cryptoList[i];
+        this.arrOfCrypto[i][3] = p.cryptoList[i] + "/" + otherP.cryptoList[i];
+      }
+    } else {
+      p.buyCrypto = true;
+      // this.newCryptoIndex = this.names.indexOf(coin);
+      //buy 3 bitcoin
+      p.newCryptoIndex = coinIndex;
+      p.newCryptoNum = 1;
+      p.priceList[p.newCryptoIndex] = (p.cryptoList[p.newCryptoIndex] * p.priceList[p.newCryptoIndex]
+        + p.newCryptoNum * this.arrOfCrypto[p.newCryptoIndex][0]) / (p.cryptoList[p.newCryptoIndex] + p.newCryptoNum);
+      p.cryptoList[p.newCryptoIndex] += p.newCryptoNum;
+
+      // let otherP = this.playerList[(this.player + 1) % 2];
+
+      for (let i = 0; i < 8; i++) {
+        this.arrOfCrypto[i][2] = Math.round(p.priceList[i] * 100) / 100;
+        // this.arrOfCrypto[i][3] = p.cryptoList[i];
+        this.arrOfCrypto[i][3] = otherP.cryptoList[i] + "/" + p.cryptoList[i];
+      }
+    }
+    p.subMoney(this.arrOfCrypto[p.newCryptoIndex][0]);
+    this.printGameboard();
+
+    console.log(p.priceList);
+    console.log(p.cryptoList);
+    this.printCrypto(this.arrOfCrypto);
+
+
 
   }
 
   printCrypto(arrayList) {
     let test = [
-      [100,0,0,"1/2"],
-      [200,0,0,"3/2"]
+      [100, 0, 0, "1/2"],
+      [200, 0, 0, "3/2"]
     ]
     //
     // arrayList = test;
 
-    for (let i = 0;i<arrayList.length;i++) {
-        for (let j = 0;j<arrayList[i].length;j++) {
-        document.querySelectorAll(".tbodyCrypto tr")[i].querySelectorAll("td")[j+1].textContent = arrayList[i][j];
+    for (let i = 0; i < arrayList.length; i++) {
+      for (let j = 0; j < arrayList[i].length; j++) {
+        document.querySelectorAll(".tbodyCrypto tr")[i].querySelectorAll("td")[j + 1].textContent = arrayList[i][j];
       }
     }
   }
 
   cryptoInfo() {
-    let arrOfCrypto = [];
+    // let arrOfCrypto = [];
     let names = ["Bitcoin", "Ethereum", "Tether", "Binance Coin", "Cardano", "HEX", "Solana", "XRP"];
     let numPlayers = this.playerList.length;
-    let turn = 0;
 
-    let p = this.playerList[this.player];
-
-    for (let i = 0; i < 8; i++) {
-      let info = [];
-      let currentName = names[i];
-      info.push(currentName);
-      info.push(randomStartingPrice());
-      info.push(0); // percent change
-      info.push(p.priceList[i]);
-      info.push(p.cryptoList[i]);
-      arrOfCrypto.push(info);
+    let p = this.playerList[this.player]
+    let otherP = this.playerList[(this.player + 1) % 2];
+    if (this.player == 1) {
+      otherP = this.playerList[this.player]
+      p = this.playerList[(this.player + 1) % 2];
     }
 
-    function randomStartingPrice() {
-      return Math.floor(Math.random() * 91) + 10;
-    }
-
-    function randomPercentage() {
-      let x = Math.random();
-      let y = Math.random();
-      if (x <= 0.5) {
-        y = y * -1;
-      }
-      return y;
-    }
-
-    console.log(arrOfCrypto);
-
-    // let tableCrypto = document.querySelector(".tbodyCrypto");
-    // for (let i = 0; i < 8; i++) {
-    //   let row = document.createElement("tr");
-    //   for (let j = 0; j < 5; j++) {
-    //     let cell = document.createElement("td");
-    //     let cellText = document.createTextNode(arrOfCrypto[i][j]);
-    //     cell.appendChild(cellText);
-    //     row.appendChild(cell);
-    //   }
-    //   row.classList.add("dummy");
-    //   tableCrypto.appendChild(row);
-    // }
-
-    let rollBtn1 = document.querySelector(".rollBtn");
-    rollBtn1.addEventListener("click", () => {
-      if (turn != 0 && turn % numPlayers == 0) {
-        // update the percentage
-        let newArr = [];
-        for (let i = 0; i < 8; i++) {
-          let currentChange = randomPercentage();
-          newArr.push(currentChange);
-        }
-
-        for (let i = 0; i < 8; i++) {
-          arrOfCrypto[i][1] = Math.round(arrOfCrypto[i][1] * (1 + newArr[i]) * 100) / 100;
-          arrOfCrypto[i][2] = Math.round(newArr[i] * 100) / 100;
-          if (p.newCryptoIndex == i && p.buyCrypto == true) {
-            arrOfCrypto[i][3] = (arrOfCrypto[i][3] * arrOfCrypto[i][4] + this.previousPrice[i] * p.newCryptoNum) / p.cryptoList[i];
-            p.priceList[i] = arrOfCrypto[i][3];
-          } else {
-            arrOfCrypto[i][3] = p.priceList[i];
-          }
-          arrOfCrypto[i][3] = Math.round(arrOfCrypto[i][3] * 100) / 100;
-          arrOfCrypto[i][4] = p.cryptoList[i];
-        }
-
-
-        console.log(arrOfCrypto);
+    if (this.player == 1) {
+      for (let i = 0; i < 8; i++) {
+        let info = [];
+        let currentName = names[i];
+        // info.push(currentName);
+        info.push(randomStartingPrice());
+        info.push(0); // percent change
+        info.push(p.priceList[i]);
+        info.push(p.cryptoList[i] + "/" + otherP.cryptoList[i]);
+        this.arrOfCrypto.shift();
+        this.arrOfCrypto.push(info);
       }
 
-      // for (let i = 0; i < 8; i++) {
-      //   document.querySelector(".dummy").remove();
-      // }
+      function randomStartingPrice() {
+        return Math.floor(Math.random() * 91) + 10;
+      }
 
+      function randomPercentage() {
+        let x = Math.random();
+        let y = Math.random();
+        if (x <= 0.5) {
+          y = y * -1;
+        }
+        return y;
+      }
+
+      console.log(this.arrOfCrypto);
+
+      // let tableCrypto = document.querySelector(".tbodyCrypto");
       // for (let i = 0; i < 8; i++) {
       //   let row = document.createElement("tr");
       //   for (let j = 0; j < 5; j++) {
@@ -297,16 +310,155 @@ class gameboard {
       //   row.classList.add("dummy");
       //   tableCrypto.appendChild(row);
       // }
-            for (let i = 0; i < 8; i++) {
-              for (let j = 1; j < 5; j++) {
-                document.querySelectorAll('#cryptomarket tbody tr')[i].querySelectorAll("td")[j]
-              }
+
+      let rollBtn1 = document.querySelector(".rollBtn");
+      rollBtn1.addEventListener("click", () => {
+        if (turn != 0 && turn % numPlayers == 0) {
+          // update the percentage
+          let newArr = [];
+          for (let i = 0; i < 8; i++) {
+            let currentChange = randomPercentage();
+            newArr.push(currentChange);
+          }
+
+          for (let i = 0; i < 8; i++) {
+            this.arrOfCrypto[i][0] = Math.round(this.arrOfCrypto[i][1] * (1 + newArr[i]) * 100) / 100;
+            this.arrOfCrypto[i][1] = Math.round(newArr[i] * 100) / 100;
+            if (p.newCryptoIndex == i && p.buyCrypto == true) {
+              this.arrOfCrypto[i][2] = (this.arrOfCrypto[i][2] * this.arrOfCrypto[i][3] + this.previousPrice[i] * p.newCryptoNum) / p.cryptoList[i];
+              p.priceList[i] = this.arrOfCrypto[i][2];
+            } else {
+              this.arrOfCrypto[i][2] = p.priceList[i];
             }
+            this.arrOfCrypto[i][2] = Math.round(this.arrOfCrypto[i][2] * 100) / 100;
+            this.arrOfCrypto[i][3] = p.cryptoList[i] + "/" + otherP.cryptoList[i];
+          }
+
+
+          console.log(this.arrOfCrypto);
+        }
+
+        // for (let i = 0; i < 8; i++) {
+        //   document.querySelector(".dummy").remove();
+        // }
+
+        // for (let i = 0; i < 8; i++) {
+        //   let row = document.createElement("tr");
+        //   for (let j = 0; j < 5; j++) {
+        //     let cell = document.createElement("td");
+        //     let cellText = document.createTextNode(this.arrOfCrypto[i][j]);
+        //     cell.appendChild(cellText);
+        //     row.appendChild(cell);
+        //   }
+        //   row.classList.add("dummy");
+        //   tableCrypto.appendChild(row);
+        // }
+        for (let i = 0; i < 8; i++) {
+          for (let j = 1; j < 5; j++) {
+            document.querySelectorAll('#cryptomarket tbody tr')[i].querySelectorAll("td")[j]
+          }
+        }
+        for (let i = 0; i < 8; i++) {
+          this.previousPrice[i] = this.arrOfCrypto[i][1];
+        }
+        turn++;
+        this.printCrypto(this.arrOfCrypto);
+      })
+    } else {
       for (let i = 0; i < 8; i++) {
-        this.previousPrice[i] = arrOfCrypto[i][1];
+        let info = [];
+        let currentName = names[i];
+        // info.push(currentName);
+        info.push(randomStartingPrice());
+        info.push(0); // percent change
+        info.push(otherP.priceList[i]);
+        info.push(otherP.cryptoList[i] + "/" + p.cryptoList[i]);
+        this.arrOfCrypto.shift();
+        this.arrOfCrypto.push(info);
       }
-      turn++;
-    })
+
+      function randomStartingPrice() {
+        return Math.floor(Math.random() * 91) + 10;
+      }
+
+      function randomPercentage() {
+        let x = Math.random();
+        let y = Math.random();
+        if (x <= 0.5) {
+          y = y * -1;
+        }
+        return y;
+      }
+
+      console.log(this.arrOfCrypto);
+
+      // let tableCrypto = document.querySelector(".tbodyCrypto");
+      // for (let i = 0; i < 8; i++) {
+      //   let row = document.createElement("tr");
+      //   for (let j = 0; j < 5; j++) {
+      //     let cell = document.createElement("td");
+      //     let cellText = document.createTextNode(arrOfCrypto[i][j]);
+      //     cell.appendChild(cellText);
+      //     row.appendChild(cell);
+      //   }
+      //   row.classList.add("dummy");
+      //   tableCrypto.appendChild(row);
+      // }
+
+      let rollBtn1 = document.querySelector(".rollBtn");
+      rollBtn1.addEventListener("click", () => {
+        if (turn != 0 && turn % numPlayers == 0) {
+          // update the percentage
+          let newArr = [];
+          for (let i = 0; i < 8; i++) {
+            let currentChange = randomPercentage();
+            newArr.push(currentChange);
+          }
+
+          for (let i = 0; i < 8; i++) {
+            this.arrOfCrypto[i][0] = Math.round(this.arrOfCrypto[i][1] * (1 + newArr[i]) * 100) / 100;
+            this.arrOfCrypto[i][1] = Math.round(newArr[i] * 100) / 100;
+            if (p.newCryptoIndex == i && p.buyCrypto == true) {
+              this.arrOfCrypto[i][2] = (this.arrOfCrypto[i][2] * this.arrOfCrypto[i][3] + this.previousPrice[i] * p.newCryptoNum) / p.cryptoList[i];
+              p.priceList[i] = this.arrOfCrypto[i][2];
+            } else {
+              this.arrOfCrypto[i][2] = p.priceList[i];
+            }
+            this.arrOfCrypto[i][2] = Math.round(this.arrOfCrypto[i][2] * 100) / 100;
+            this.arrOfCrypto[i][3] = otherP.cryptoList[i] + "/" + p.cryptoList[i];
+          }
+
+
+          console.log(this.arrOfCrypto);
+        }
+
+        // for (let i = 0; i < 8; i++) {
+        //   document.querySelector(".dummy").remove();
+        // }
+
+        // for (let i = 0; i < 8; i++) {
+        //   let row = document.createElement("tr");
+        //   for (let j = 0; j < 5; j++) {
+        //     let cell = document.createElement("td");
+        //     let cellText = document.createTextNode(this.arrOfCrypto[i][j]);
+        //     cell.appendChild(cellText);
+        //     row.appendChild(cell);
+        //   }
+        //   row.classList.add("dummy");
+        //   tableCrypto.appendChild(row);
+        // }
+        for (let i = 0; i < 8; i++) {
+          for (let j = 1; j < 5; j++) {
+            document.querySelectorAll('#cryptomarket tbody tr')[i].querySelectorAll("td")[j]
+          }
+        }
+        for (let i = 0; i < 8; i++) {
+          this.previousPrice[i] = this.arrOfCrypto[i][1];
+        }
+        turn++;
+        this.printCrypto(this.arrOfCrypto);
+      })
+    }
 
 
 
