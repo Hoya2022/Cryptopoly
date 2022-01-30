@@ -293,7 +293,7 @@ class gameboard {
         let currentName = names[i];
         // info.push(currentName);
         info.push(randomStartingPrice());
-        info.push(0); // percent change
+        info.push(this.percentChange[i]); // percent change
         info.push(p.priceList[i]);
         info.push(p.cryptoList[i] + "/" + otherP.cryptoList[i]);
         this.arrOfCrypto.shift();
@@ -334,7 +334,7 @@ class gameboard {
           // update the percentage
           let newArr = [];
           for (let i = 0; i < 8; i++) {
-            let currentChange = randomPercentage();
+            let currentChange = this.percentChange[i];
             newArr.push(currentChange);
           }
 
@@ -387,7 +387,7 @@ class gameboard {
         let currentName = names[i];
         // info.push(currentName);
         info.push(randomStartingPrice());
-        info.push(0); // percent change
+        info.push(this.percentChange[i]); // percent change
         info.push(otherP.priceList[i]);
         info.push(otherP.cryptoList[i] + "/" + p.cryptoList[i]);
         this.arrOfCrypto.shift();
@@ -428,7 +428,7 @@ class gameboard {
           // update the percentage
           let newArr = [];
           for (let i = 0; i < 8; i++) {
-            let currentChange = randomPercentage();
+            let currentChange = this.percentChange[i];
             newArr.push(currentChange);
           }
 
