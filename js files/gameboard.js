@@ -42,6 +42,8 @@ class gameboard {
     //   console.log(person)
     //   playerList.push(new player(person,0));
     // }
+    this.initializeCryto()
+
   }
 
   createGameboard() {
@@ -170,8 +172,17 @@ class gameboard {
   }
 
   initializeCryto() {
+
+    this.cryptoInfo();
+  }
+
+  cryptoInfo() {
     let arrOfCrypto = [];
     let names = ["Bitcoin", "Ethereum", "Tether", "Binance Coin", "Cardano", "HEX", "Solana", "XRP"];
+    let numPlayers = this.playerList.length;
+    let turn = 0;
+
+    let p = this.playerList[this.player];
 
     for (let i = 0; i < 8; i++) {
       let info = [];
@@ -179,6 +190,8 @@ class gameboard {
       info.push(currentName);
       info.push(randomStartingPrice());
       info.push(0); // percent change
+      info.push(p.priceList[i]);
+      info.push(p.cryptoList[i]);
       arrOfCrypto.push(info);
     }
 
@@ -200,7 +213,7 @@ class gameboard {
     let tableCrypto = document.querySelector(".tbodyCrypto");
     for (let i = 0; i < 8; i++) {
       let row = document.createElement("tr");
-      for (let j = 0; j < 3; j++) {
+      for (let j = 0; j < 5; j++) {
         let cell = document.createElement("td");
         let cellText = document.createTextNode(arrOfCrypto[i][j]);
         cell.appendChild(cellText);
@@ -211,20 +224,30 @@ class gameboard {
     }
 
     let rollBtn1 = document.querySelector(".rollBtn");
-    //implement
     rollBtn1.addEventListener("click", () => {
-      // update the percentage
-      let newArr = [];
-      for (let i = 0; i < 8; i++) {
-        let currentChange = randomPercentage();
-        newArr.push(currentChange);
-      }
+      if (turn != 0 && turn % numPlayers == 0) {
+        // update the percentage
+        let newArr = [];
+        for (let i = 0; i < 8; i++) {
+          let currentChange = randomPercentage();
+          newArr.push(currentChange);
+        }
 
-      for (let i = 0; i < 8; i++) {
-        arrOfCrypto[i][1] = arrOfCrypto[i][1] * (1 + newArr[i]);
-        arrOfCrypto[i][2] = newArr[i];
+        for (let i = 0; i < 8; i++) {
+          arrOfCrypto[i][1] = Math.round(arrOfCrypto[i][1] * (1 + newArr[i]) * 100) / 100;
+          arrOfCrypto[i][2] = Math.round(newArr[i] * 100) / 100;
+          if (p.newCryptoIndex == i && p.buyCrypto == true) {
+            arrOfCrypto[i][3] = (arrOfCrypto[i][3] * arrOfCrypto[i][4] + this.previousPrice[i] * p.newCryptoNum) / p.cryptoList[i];
+            p.priceList[i] = arrOfCrypto[i][3];
+          } else
+            arrOfCrypto[i][3] = p.priceList[i];
+          arrOfCrypto[i][3] = Math.round(arrOfCrypto[i][3] * 100) / 100;
+          arrOfCrypto[i][4] = p.cryptoList[i];
+        }
+
+
+        console.log(arrOfCrypto);
       }
-      console.log(arrOfCrypto);
 
       for (let i = 0; i < 8; i++) {
         document.querySelector(".dummy").remove();
@@ -232,7 +255,7 @@ class gameboard {
 
       for (let i = 0; i < 8; i++) {
         let row = document.createElement("tr");
-        for (let j = 0; j < 3; j++) {
+        for (let j = 0; j < 5; j++) {
           let cell = document.createElement("td");
           let cellText = document.createTextNode(arrOfCrypto[i][j]);
           cell.appendChild(cellText);
@@ -241,7 +264,59 @@ class gameboard {
         row.classList.add("dummy");
         tableCrypto.appendChild(row);
       }
+      for (let i = 0; i < 8; i++) {
+        this.previousPrice[i] = arrOfCrypto[i][1];
+      }
+      turn++;
     })
-  }
 
+
+
+
+
+
+
+
+    // let parse = document.createElement('script');
+
+    // parse.onload = function(){
+    //     let rollBtn1 = document.querySelector(".rollBtn");
+    //     rollBtn1.addEventListener("click", () =>{
+    //         Papa.parse("https://storage.googleapis.com/crypto_stuff/files/priceChanges.csv",{
+    //             download: true,
+    //             header: false,
+    //             complete: function(result){
+    //                 console.log(result);
+    //             }
+    //         })
+    //     })
+    // };
+    // parse.src = "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js";
+
+    // document.head.appendChild(parse);
+
+
+
+
+
+
+
+    // let rollBtn1 = document.querySelector(".rollBtn");
+    // rollBtn1.addEventListener("click", () =>{
+    //     let parse = document.createElement('script');
+
+    //     parse.onload = function(){
+    //         Papa.parse("https://storage.googleapis.com/crypto_stuff/files/priceChanges.csv",{
+    //             download: true,
+    //             header: false,
+    //             complete: function(result){
+    //                 console.log(result);
+    //             }
+    //         })
+    //     };
+    //     parse.src = "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js";
+    //     document.head.appendChild(parse);
+    // });}
+
+  }
 }

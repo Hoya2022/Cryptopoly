@@ -540,6 +540,7 @@ class player {
       }
     }
 
+    g.cryptoInfo();
     g.printGameboard();
     this.checkBankruptcy();
   }

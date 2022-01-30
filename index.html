@@ -27,42 +27,30 @@
   <script src="js files/player.js"></script>
   <script src="js files/gameboard.js"></script>
 
-  <session id="playerInfo" style="display:none">
+  <session id="playerInfo">
     <div class="card bg-light" style="width: 16rem;">
       <div class="card-body">
-        <p class="card-text">Please enter your username</p>
-        <input type="text" id="username" class="mb-3">
 
-        <p class="card-text">Choose a logo you like</p>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="logo" id="logo1" value="1">
-          <label class="form-check-label" for="logo1">&#8986;</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Player 1 Name</span>
+          </div>
+          <input type="text" id="player0name" class="form-control" placeholder="One" aria-label="One"
+            aria-describedby="inputGroup-sizing-default">
         </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="logo" id="logo2" value="2">
-          <label class="form-check-label" for="logo2">&#9749;</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="logo" id="logo3" value="3">
-          <label class="form-check-label" for="logo3">&#9875;</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="logo" id="logo4" value="4">
-          <label class="form-check-label" for="logo4">&#9962;</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="logo" id="logo5" value="5">
-          <label class="form-check-label" for="logo5">&#10024;</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="logo" id="logo5" value="6">
-          <label class="form-check-label mb-3" for="logo6">&#127772;</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">Player 2 Name</span>
+          </div>
+          <input type="text" id="player1name" class="form-control" placeholder="Two" aria-label="Two"
+            aria-describedby="inputGroup-sizing-default">
         </div>
 
-        <a href="#" class="btn btn-success" onclick="">Submit</a>
+        <a href="#" class="btn btn-success" onclick="g.createPlayer()">Submit</a>
       </div>
     </div>
   </session>
+
 
   <session id="eventcard" style="display:none">
     <div class="card border-secondary mb-3" style="max-width: 18rem;">
@@ -90,15 +78,16 @@
         <a href="#" class="btn btn-danger" onclick="g.prompt(0)">No</a>
       </div>
     </div>
-    </div>
   </session>
 
 
   <session id="profile">
+
+
     <div class="accordion accordion-flush" id="accordionFlush">
       <div class="accordion-item">
         <h2 class="accordion-header" id="flush-headingOne">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          <button class="accordion-button collapsed" id="player0profile" type="button" data-bs-toggle="collapse"
             data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
             Player 1
           </button>
@@ -126,7 +115,7 @@
       </div>
       <div class="accordion-item">
         <h2 class="accordion-header" id="flush-headingTwo">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          <button class="accordion-button collapsed" id="player1profile" type="button" data-bs-toggle="collapse"
             data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
             Player 2
           </button>
@@ -250,26 +239,15 @@
 
   <script src="lib/dice.js"></script>
 
-
   <script>
     // public static void main(String[] args) {
     propertyList = [];
     playerList = [];
     g = new gameboard(40, playerList);
 
-    let person = prompt("Please enter your name", "Test");
-    let name;
-    if (person == null || person == "") {
-      name = "User cancelled the prompt.";
-    } else {
-      console.log(person)
-      playerList.push(new player(person, 0));
-    }
-
-
   </script>
-  <script src="js files/cryptoInfo.js"></script>
 
+  <script src="js files/cryptoInfo.js"></script>
 </body>
 
 </html>
