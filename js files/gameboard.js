@@ -11,6 +11,7 @@ class gameboard {
     this.setPreviousPrice();
     this.drewEvent = false;
     this.player = 0;
+    this.percentChange = [0,0,0,0,0,0,0,0];
   }
 
   startGame() {
@@ -166,8 +167,21 @@ class gameboard {
 
   }
 
-  handleRealDate(result) {
-    
+  handleRealData(result) {
+
+    for (let i = 0;i<this.percentChange.length;i++) {
+      let percent = parseFloat(result.data[i+1][2]));
+      if(percent==0) {
+        percent = Math.floor(Math.random() * (10 - 1) + 1) / 100; //1 to 10%
+      } else {
+          while(percent<0.1) {
+            percent = percent * 10;
+          }
+          
+            this.percentChange[i] = percent //Bit Coin "-0.00015754859627089649
+      }
+
+    }
   }
 
   toggleMarket(toggle) {
