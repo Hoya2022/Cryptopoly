@@ -12,7 +12,7 @@ class player {
     this.money = 1500;
     this.propertyList = [];
     this.cryptoList = [0, 0, 0, 0, 0, 0, 0, 0];
-    this.priceList = [0, 0, 0, 0, 0, 0, 0, 0];
+    this.priceList = [100, 100, 100, 100, 100, 100, 100, 100];
     this.setCryptoList();
     this.setPriceList();
     this.currentLocation = 0;
@@ -416,22 +416,26 @@ class player {
     if (currentProperty.location >= 1 && currentProperty.location <= 10) { // upper
       let createDot = document.createElement("div");
       createDot.classList.add("dot");
+      createDot.classList.add("player" + this.id);
       // createDot.classList.add("align-self-end");
       currentGrid.appendChild(createDot);
     }
     else if (currentProperty.location >= 11 && currentProperty.location <= 20) { // right side
       let createDot = document.createElement("div");
       createDot.classList.add("dot");
+      createDot.classList.add("player" + this.id);
       currentGrid.appendChild(createDot);
     }
     else if (currentProperty.location >= 21 && currentProperty.location <= 30) { // bottom
       let createDot = document.createElement("div");
       createDot.classList.add("dot");
+      createDot.classList.add("player" + this.id);
       currentGrid.appendChild(createDot);
     }
     else { // left
       let createDot = document.createElement("div");
       createDot.classList.add("dot");
+      createDot.classList.add("player" + this.id);
       currentGrid.appendChild(createDot);
     }
   }
