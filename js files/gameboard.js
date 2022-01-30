@@ -15,6 +15,10 @@ class gameboard {
     this.beforeTurn = true;
   }
 
+  startGame() {
+    document.querySelector(`#gameMenu`).style.display = "none";
+  }
+
   switchPlayer() {
     document.querySelector(`#player${this.player}profile`).click();
     if (this.player == 0) {
@@ -31,7 +35,7 @@ class gameboard {
     if (document.querySelector('#player0name').value != "")
       player0 = document.querySelector('#player0name').value
     if (document.querySelector('#player1name').value != "")
-      player0 = document.querySelector('#player1name').value
+      player1 = document.querySelector('#player1name').value
 
     playerList.push(new player(player0, 0));
     playerList.push(new player(player1, 1));
@@ -45,7 +49,8 @@ class gameboard {
     //   console.log(person)
     //   playerList.push(new player(person,0));
     // }
-    this.initializeCrypto()
+
+    // this.initializeCrypto()
 
   }
 
@@ -174,22 +179,32 @@ class gameboard {
 
   }
 
+  toggleMarket(toggle) {
+
+    if (toggle == 0) {
+      document.querySelector('#cryptomarket').style.display = "none";
+    } else {
+      document.querySelector('#cryptomarket').style.display = "";
+    }
+  }
+
   initializeCrypto() {
-    this.initialize = true;
+
     this.cryptoInfo();
   }
 
-  cryptoTableGenerator(tableCrypto) {
-    for (let i = 0; i < 8; i++) {
-      let row = document.createElement("tr");
-      for (let j = 0; j < 6; j++) {
-        let cell = document.createElement("td");
-        let cellText = document.createTextNode(this.arrOfCrypto[i][j]);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
+  printCrypto(arrayList) {
+    // let test = [
+    //   [100,0,0,"1/2"],
+    //   [200,0,0,"3/2"]
+    // ]
+    //
+    // arrayList = test;
+
+    for (let i = 0; i < arrayList.length; i++) {
+      for (let j = 0; j < arrayList[i].length; j++) {
+        document.querySelectorAll(".tbodyCrypto tr")[i].querySelectorAll("td")[j + 1].textContent = arrayList[i][j];
       }
-      row.classList.add("dummy");
-      tableCrypto.appendChild(row);
     }
   }
 
@@ -235,120 +250,149 @@ class gameboard {
     console.log(this.arrOfCrypto);
 
 
-    let tableCrypto = document.querySelector(".tbodyCrypto");
-    for (let i = 0; i < 8; i++) {
-      let row = document.createElement("tr");
-      for (let j = 0; j < 6; j++) {
-        let cell = document.createElement("td");
-        let cellText = document.createTextNode(this.arrOfCrypto[i][j]);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
+    // let tableCrypto = document.querySelector(".tbodyCrypto");
+    // for (let i = 0; i < 8; i++) {
+    //   let row = document.createElement("tr");
+    //   for (let j = 0; j < 5; j++) {
+    //     let cell = document.createElement("td");
+    //     let cellText = document.createTextNode(arrOfCrypto[i][j]);
+    //     cell.appendChild(cellText);
+    //     row.appendChild(cell);
+    //   }
+    //   row.classList.add("dummy");
+    //   tableCrypto.appendChild(row);
+    // }
+
+    let rollBtn1 = document.querySelector(".rollBtn");
+    rollBtn1.addEventListener("click", () => {
+      if (turn != 0 && turn % numPlayers == 0) {
+        // update the percentage
+        let newArr = [];
+        for (let i = 0; i < 8; i++) {
+          let currentChange = randomPercentage();
+          newArr.push(currentChange);
+        }
+
+        for (let i = 0; i < 8; i++) {
+          arrOfCrypto[i][1] = Math.round(arrOfCrypto[i][1] * (1 + newArr[i]) * 100) / 100;
+          arrOfCrypto[i][2] = Math.round(newArr[i] * 100) / 100;
+          if (p.newCryptoIndex == i && p.buyCrypto == true) {
+            arrOfCrypto[i][3] = (arrOfCrypto[i][3] * arrOfCrypto[i][4] + this.previousPrice[i] * p.newCryptoNum) / p.cryptoList[i];
+            p.priceList[i] = arrOfCrypto[i][3];
+          } else
+            arrOfCrypto[i][3] = p.priceList[i];
+          arrOfCrypto[i][3] = Math.round(arrOfCrypto[i][3] * 100) / 100;
+          arrOfCrypto[i][4] = p.cryptoList[i];
+        }
+
+
+        console.log(arrOfCrypto);
       }
-      row.classList.add("dummy");
-      tableCrypto.appendChild(row);
-    }
 
-    // let rollBtn1 = document.querySelector(".rollBtn");
-    let newArr = [];
-    if (turn != 0 && turn % (numPlayers * 2) == 0) {
-      // update the percentage
+      // for (let i = 0; i < 8; i++) {
+      //   document.querySelector(".dummy").remove();
+      // }
 
+      // for (let i = 0; i < 8; i++) {
+      //   let row = document.createElement("tr");
+      //   for (let j = 0; j < 5; j++) {
+      //     let cell = document.createElement("td");
+      //     let cellText = document.createTextNode(arrOfCrypto[i][j]);
+      //     cell.appendChild(cellText);
+      //     row.appendChild(cell);
+      //   }
+      //   row.classList.add("dummy");
+      //   tableCrypto.appendChild(row);
+      // }
       for (let i = 0; i < 8; i++) {
-        let currentChange = randomPercentage();
-        newArr.push(currentChange);
+        for (let j = 1; j < 5; j++) {
+          document.querySelectorAll('#cryptomarket tbody tr')[i].querySelectorAll("td")[j]
+        }
       }
-    } else {
       for (let i = 0; i < 8; i++) {
         newArr.push(0);
       }
+
+
+      let p1 = this.playerList[0];
+      let p2 = this.playerList[1];
+
+      for (let i = 0; i < 8; i++) {
+        this.arrOfCrypto[i][1] = Math.round(this.arrOfCrypto[i][1] * (1 + newArr[i]) * 100) / 100;
+        this.arrOfCrypto[i][2] = Math.round(newArr[i] * 100) / 100;
+        if (p.newCryptoIndex == i && p.buyCrypto == true) {
+          // this.arrOfCrypto[i][3] = (this.arrOfCrypto[i][3] * this.arrOfCrypto[i][4] + this.previousPrice[i] * p.newCryptoNum) / p.cryptoList[i];
+          // p.priceList[i] = this.arrOfCrypto[i][3];
+          this.arrOfCrypto[i][3] = p.priceList[i];
+        } else
+          this.arrOfCrypto[i][3] = this.arrOfCrypto[i][3];
+        this.arrOfCrypto[i][3] = Math.round(this.arrOfCrypto[i][3] * 100) / 100;
+        this.arrOfCrypto[i][4] = p.cryptoList[i];
+        this.arrOfCrypto[i][5] = p1.cryptoList[i] + "/" + p2.cryptoList[i];
+      }
+
+      console.log(p.priceList);
+      console.log(p.cryptoList);
+      console.log(this.arrOfCrypto);
+
+      //what's this?
+      for (let i = 0; i < 8; i++) {
+        document.querySelector(".dummy").remove();
+      }
+
+      this.cryptoTableGenerator(tableCrypto);
+
+
+      for (let i = 0; i < 8; i++) {
+        this.previousPrice[i] = this.arrOfCrypto[i][1];
+      }
+
+      //chen's print table method
+      this.printCryptothis(this.arrOfCrypto);
+
+      turn++;
+
+      // let parse = document.createElement('script');
+
+      // parse.onload = function(){
+      //     let rollBtn1 = document.querySelector(".rollBtn");
+      //     rollBtn1.addEventListener("click", () =>{
+      //         Papa.parse("https://storage.googleapis.com/crypto_stuff/files/priceChanges.csv",{
+      //             download: true,
+      //             header: false,
+      //             complete: function(result){
+      //                 console.log(result);
+      //             }
+      //         })
+      //     })
+      // };
+      // parse.src = "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js";
+
+      // document.head.appendChild(parse);
+
+
+
+
+
+
+
+      // let rollBtn1 = document.querySelector(".rollBtn");
+      // rollBtn1.addEventListener("click", () =>{
+      //     let parse = document.createElement('script');
+
+      //     parse.onload = function(){
+      //         Papa.parse("https://storage.googleapis.com/crypto_stuff/files/priceChanges.csv",{
+      //             download: true,
+      //             header: false,
+      //             complete: function(result){
+      //                 console.log(result);
+      //             }
+      //         })
+      //     };
+      //     parse.src = "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js";
+      //     document.head.appendChild(parse);
+      // });}
+
     }
-
-    let p1 = this.playerList[0];
-    let p2 = this.playerList[1];
-
-    for (let i = 0; i < 8; i++) {
-      this.arrOfCrypto[i][1] = Math.round(this.arrOfCrypto[i][1] * (1 + newArr[i]) * 100) / 100;
-      this.arrOfCrypto[i][2] = Math.round(newArr[i] * 100) / 100;
-      if (p.newCryptoIndex == i && p.buyCrypto == true) {
-        // this.arrOfCrypto[i][3] = (this.arrOfCrypto[i][3] * this.arrOfCrypto[i][4] + this.previousPrice[i] * p.newCryptoNum) / p.cryptoList[i];
-        // p.priceList[i] = this.arrOfCrypto[i][3];
-        this.arrOfCrypto[i][3] = p.priceList[i];
-      } else
-        this.arrOfCrypto[i][3] = this.arrOfCrypto[i][3];
-      this.arrOfCrypto[i][3] = Math.round(this.arrOfCrypto[i][3] * 100) / 100;
-      this.arrOfCrypto[i][4] = p.cryptoList[i];
-      this.arrOfCrypto[i][5] = p1.cryptoList[i] + "/" + p2.cryptoList[i];
-    }
-
-    console.log(p.priceList);
-    console.log(p.cryptoList);
-    console.log(this.arrOfCrypto);
-
-    //what's this?
-    for (let i = 0; i < 8; i++) {
-      document.querySelector(".dummy").remove();
-    }
-
-    this.cryptoTableGenerator(tableCrypto);
-
-
-    for (let i = 0; i < 8; i++) {
-      this.previousPrice[i] = this.arrOfCrypto[i][1];
-    }
-
-    //chen's print table method
-    this.printCryptothis(this.arrOfCrypto);
-
-    turn++;
-
-
-
-
-
-
-
-
-
-    // let parse = document.createElement('script');
-
-    // parse.onload = function(){
-    //     let rollBtn1 = document.querySelector(".rollBtn");
-    //     rollBtn1.addEventListener("click", () =>{
-    //         Papa.parse("https://storage.googleapis.com/crypto_stuff/files/priceChanges.csv",{
-    //             download: true,
-    //             header: false,
-    //             complete: function(result){
-    //                 console.log(result);
-    //             }
-    //         })
-    //     })
-    // };
-    // parse.src = "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js";
-
-    // document.head.appendChild(parse);
-
-
-
-
-
-
-
-    // let rollBtn1 = document.querySelector(".rollBtn");
-    // rollBtn1.addEventListener("click", () =>{
-    //     let parse = document.createElement('script');
-
-    //     parse.onload = function(){
-    //         Papa.parse("https://storage.googleapis.com/crypto_stuff/files/priceChanges.csv",{
-    //             download: true,
-    //             header: false,
-    //             complete: function(result){
-    //                 console.log(result);
-    //             }
-    //         })
-    //     };
-    //     parse.src = "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js";
-    //     document.head.appendChild(parse);
-    // });}
-
   }
 }
