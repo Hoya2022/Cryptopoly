@@ -1,5 +1,5 @@
 # Hoya2022
-Hoya2022 Hackathon
+Hoya2022 Hackathon\
 Description: https://devpost.com/software/cryptopoly-monopoly-to-the-moon
 
 Link to Play: https://hoya2022.github.io/Cryptopoly/
