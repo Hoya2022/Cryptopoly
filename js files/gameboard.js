@@ -26,7 +26,7 @@ class gameboard{
     if(document.querySelector('#player0name').value!="")
         player0 = document.querySelector('#player0name').value
     if(document.querySelector('#player1name').value!="")
-        player0 = document.querySelector('#player1name').value
+        player1 = document.querySelector('#player1name').value
 
       playerList.push(new player(player0,0));
       playerList.push(new player(player1,1));
