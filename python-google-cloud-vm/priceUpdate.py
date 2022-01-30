@@ -1,5 +1,6 @@
 #note the below is a copy of the python script running in our Ubuntu VM on G-Cloud
 #certain extra comments have been added to this file for explanation
+#comment formalizing writer of code as contributor to github.
 import pandas as pd
 import os
 from pathlib import Path
