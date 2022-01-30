@@ -471,7 +471,7 @@ class player {
       //     break;
     } else if (type == "gotojail") {
       if (!this.jailFreeCard) {
-        p.setJail();
+        this.setJail();
         // p.setLocation(10);
         this.moveTo(this.currentLocation, 10, 100, false)
       } else
