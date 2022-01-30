@@ -179,7 +179,7 @@ class gameboard {
           percent = percent * 10;
         }
       }
-      this.percentChange[i] = percent //Bit Coin "-0.00015754859627089649
+      this.percentChange[i] = percent.toFixed(2) //Bit Coin "-0.00015754859627089649
 
     }
   }
