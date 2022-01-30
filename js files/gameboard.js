@@ -330,7 +330,7 @@ class gameboard {
 
       let rollBtn1 = document.querySelector(".rollBtn");
       rollBtn1.addEventListener("click", () => {
-        if (turn != 0 && turn % numPlayers == 0) {
+        if (this.turn != 0 && this.turn % numPlayers == 0) {
           // update the percentage
           let newArr = [];
           for (let i = 0; i < 8; i++) {
@@ -378,7 +378,7 @@ class gameboard {
         for (let i = 0; i < 8; i++) {
           this.previousPrice[i] = this.arrOfCrypto[i][1];
         }
-        turn++;
+        this.turn++;
         this.printCrypto(this.arrOfCrypto);
       })
     } else {
@@ -424,7 +424,7 @@ class gameboard {
 
       let rollBtn1 = document.querySelector(".rollBtn");
       rollBtn1.addEventListener("click", () => {
-        if (turn != 0 && turn % numPlayers == 0) {
+        if (this.turn != 0 && this.turn % numPlayers == 0) {
           // update the percentage
           let newArr = [];
           for (let i = 0; i < 8; i++) {
@@ -472,7 +472,7 @@ class gameboard {
         for (let i = 0; i < 8; i++) {
           this.previousPrice[i] = this.arrOfCrypto[i][1];
         }
-        turn++;
+        this.turn++;
         this.printCrypto(this.arrOfCrypto);
       })
     }
