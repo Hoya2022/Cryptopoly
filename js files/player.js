@@ -459,7 +459,7 @@ class player {
               p.addProperty(currentProperty);
               // alert(`${p.getName()} successfully purchased ${currentProperty.getInfo()}!`);
               p.print(`successfully purchased ${currentProperty.getInfo()}`);
-              p.profile.querySelector('.property div').innerHTML += `${currentProperty.getInfo()}`;
+              p.profile.querySelector('.property div').innerHTML += `<span class="badge badge-primary" style="background-color: ${currentProperty.getColor()}">${currentProperty.getInfo()}</span>`;
               p.addPropertyLevel(currentProperty);
               p.update();
             }
