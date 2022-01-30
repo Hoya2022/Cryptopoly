@@ -74,7 +74,7 @@ class player {
   }
 
   setJail() {
-    this.jail = 5;
+    this.jail = 3;
   }
 
   addJailFreeCard() {
@@ -112,7 +112,7 @@ class player {
 
   updateLocation(move) {
     let p = this;
-    if (p.jail <= 0) {
+    if (this.jail <= 0) {
       //JS API
       //Remove Player Object
       this.removePlayer()
@@ -143,8 +143,8 @@ class player {
       gridNext.appendChild(player)
       //JS API
     } else {
-      p.print(p.name + " is in jail and has to wait " + p.jail + " turns!");
-      p.jail = p.jail - 1;
+      this.print(this.name + " is in jail and has to wait " + this.jail + " turns!");
+      this.jail = this.jail - 1;
     }
 
   }
@@ -470,7 +470,7 @@ class player {
       // if (p.jail > 0)
       //     break;
     } else if (type == "gotojail") {
-      if (!p.jailFreeCard) {
+      if (!this.jailFreeCard) {
         p.setJail();
         // p.setLocation(10);
         this.moveTo(this.currentLocation, 10, 100, false)
