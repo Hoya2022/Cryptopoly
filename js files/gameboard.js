@@ -166,6 +166,10 @@ class gameboard {
 
   }
 
+  handleRealDate(result) {
+    
+  }
+
   toggleMarket(toggle) {
 
     if(toggle==0) {

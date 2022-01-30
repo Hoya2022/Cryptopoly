@@ -89,7 +89,7 @@ position: absolute;
 }
 .square-grid {
   position: absolute;
-  background-color: yellow;
+  background-color: #d2dae2;
   border: solid #2d3436 1px;
   height: 80px;
   width: 80px;
@@ -275,7 +275,14 @@ top: calc(20px + 60px*4 + 30px );
 left: calc(100% - (100% - 60px*9)/2 - 8px - 300px)
 }
 
-.dot{
+.dot.player0{
+  background-color: #ef5777;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot.player1{
   background-color: floralwhite;
   width: 8px;
   height: 8px;
