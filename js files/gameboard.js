@@ -8,8 +8,6 @@ class gameboard{
     this.promptEvent = false;
     this.drewEvent = false;
     this.player = 0;
-    
-    document.querySelector(`#player${this.player}profile`).click();
   }
 
   switchPlayer() {
