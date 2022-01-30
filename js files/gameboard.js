@@ -270,8 +270,12 @@ class gameboard {
 
     for (let i = 0; i < arrayList.length; i++) {
       for (let j = 0; j < arrayList[i].length; j++) {
-        document.querySelectorAll(".tbodyCrypto tr")[i].querySelectorAll("td")[j + 1].textContent = arrayList[i][j];
-      }
+            if(j==1) {
+              document.querySelectorAll(".tbodyCrypto tr")[i].querySelectorAll("td")[j + 1].textContent = arrayList[i][j].toFixed(2);
+            } else {
+              document.querySelectorAll(".tbodyCrypto tr")[i].querySelectorAll("td")[j + 1].textContent = arrayList[i][j];
+            }
+        }
     }
   }
 
