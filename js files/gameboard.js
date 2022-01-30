@@ -10,6 +10,10 @@ class gameboard{
     this.player = 0;
   }
 
+  startGame() {
+    document.querySelector(`#gameMenu`).style.display = "none";
+  }
+
   switchPlayer() {
     document.querySelector(`#player${this.player}profile`).click();
     if(this.player==0) {
@@ -32,14 +36,6 @@ class gameboard{
       playerList.push(new player(player1,1));
 
     document.querySelector('#playerInfo').style.display = "none";
-    // let person = prompt("Please enter your name", "Test");
-    // let name;
-    // if (person == null || person == "") {
-    //   name = "User cancelled the prompt.";
-    // } else {
-    //   console.log(person)
-    //   playerList.push(new player(person,0));
-    // }
   }
 
   createGameboard() {
