@@ -7,6 +7,41 @@ class gameboard{
     this.createGameboard();
     this.promptEvent = false;
     this.drewEvent = false;
+    this.player = 0;
+    
+    document.querySelector(`#player${this.player}profile`).click();
+  }
+
+  switchPlayer() {
+    document.querySelector(`#player${this.player}profile`).click();
+    if(this.player==0) {
+    this.player = 1
+  } else if(this.player==1) {
+    this.player = 0
+    }
+  }
+
+  createPlayer() {
+
+    let player0 = "One"
+    let player1 = "Two"
+    if(document.querySelector('#player0name').value!="")
+        player0 = document.querySelector('#player0name').value
+    if(document.querySelector('#player1name').value!="")
+        player0 = document.querySelector('#player1name').value
+
+      playerList.push(new player(player0,0));
+      playerList.push(new player(player1,1));
+
+    document.querySelector('#playerInfo').style.display = "none";
+    // let person = prompt("Please enter your name", "Test");
+    // let name;
+    // if (person == null || person == "") {
+    //   name = "User cancelled the prompt.";
+    // } else {
+    //   console.log(person)
+    //   playerList.push(new player(person,0));
+    // }
   }
 
   createGameboard() {

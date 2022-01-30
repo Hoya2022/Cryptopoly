@@ -85,14 +85,21 @@ class player {
 
   }
 
+  removePlayer() {
+  let gridPrevious = document.querySelector('#grid' + this.currentLocation.toString());
+  let playerPreviousLocation = gridPrevious.querySelectorAll('li');
+  for (let i = 0;i<playerPreviousLocation.length;i++) {
+    if(playerPreviousLocation[i].textContent == this.name)
+      gridPrevious.removeChild(playerPreviousLocation[i])
+  }
+  }
+
   updateLocation(move) {
     let p = this;
     if (p.jail <= 0) {
       //JS API
       //Remove Player Object
-      let gridPrevious = document.querySelector('#grid' + this.currentLocation.toString());
-      let playerPreviousLocation = gridPrevious.querySelector('li');
-      gridPrevious.removeChild(playerPreviousLocation)
+      this.removePlayer()
       //JS API
 
       // this.currentLocation = (this.currentLocation + move) % this.size;
@@ -132,9 +139,7 @@ class player {
   setLocation(location) {
     //JS API
     //Remove Player Object
-    let gridPrevious = document.querySelector('#grid' + this.currentLocation.toString());
-    let playerPreviousLocation = gridPrevious.querySelector('li');
-    gridPrevious.removeChild(playerPreviousLocation)
+    this.removePlayer()
     //JS API
 
     this.currentLocation = location;

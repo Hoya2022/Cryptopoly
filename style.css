@@ -28,6 +28,13 @@ html, body {
   height:100vh;
 }
 
+#playerInfo {
+  position: absolute;
+  top: calc(20px + 60px*4.5 - 50px);
+  left: calc(100% - (100% - 60px*9)/2 - 8px - 404px);
+  z-index: 20;
+}
+
 #board {
   position: absolute;
   top: 10px;
