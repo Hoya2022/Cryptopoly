@@ -11,8 +11,8 @@ class player {
     this.name = name;
     this.money = 1500;
     this.propertyList = [];
-    this.cryptoList = [];
-    this.priceList = [];
+    this.cryptoList = [0,0,0,0,0,0,0,0];
+    this.priceList = [0,0,0,0,0,0,0,0];
     this.setCryptoList();
     this.setPriceList();
     this.currentLocation = 0;
@@ -459,18 +459,6 @@ class player {
       // this.print(p.name + " bought an NFT for $200!");
       // p.subMoney(200);
       g.toggleMarket(1)
-      // this.print("You can buy crypto!");
-      if (true) {
-        //buy "Bitcoin";
-        let coin = "Bitcoin";
-        this.buyCrypto = true;
-        this.newCryptoIndex = this.names.indexOf(coin);
-        //buy 3 bitcoin
-        this.newCryptoNum = 3;
-        this.priceList[this.newCryptoIndex] = (this.cryptoList[this.newCryptoIndex] * this.priceList[this.newCryptoIndex] + this.newCryptoNum * g.arrOfCrypto[this.newCryptoIndex][1]) / (this.cryptoList[this.newCryptoIndex] + this.newCryptoNum);
-        this.cryptoList[this.newCryptoIndex] += this.newCryptoNum;
-
-      }
 
     } else if (type == "tax") {
       this.print("It's tax season!");

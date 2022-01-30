@@ -7,6 +7,7 @@ class gameboard {
     this.createGameboard();
     this.promptEvent = false;
     this.previousPrice = [];
+    this.arrOfCrypto = ["Bitcoin", "Ethereum", "Tether", "Binance Coin", "Cardano", "HEX", "Solana", "XRP"];
     this.setPreviousPrice();
     this.drewEvent = false;
     this.player = 0;
@@ -179,6 +180,19 @@ class gameboard {
     this.cryptoInfo();
   }
 
+  buyCoin(coinIndex) {
+    let p = this.playerList[this.player]
+    p.buyCrypto = true;
+    // this.newCryptoIndex = this.names.indexOf(coin);
+    //buy 3 bitcoin
+    p.newCryptoIndex = coinIndex;
+    p.newCryptoNum = 1;
+    p.priceList[p.newCryptoIndex] = (p.cryptoList[p.newCryptoIndex] * p.priceList[p.newCryptoIndex]
+                                    + p.newCryptoNum * this.arrOfCrypto[p.newCryptoIndex][1]) / (p.cryptoList[p.newCryptoIndex] + p.newCryptoNum);
+    p.cryptoList[p.newCryptoIndex] += p.newCryptoNum;
+
+  }
+
   printCrypto(arrayList) {
     let test = [
       [100,0,0,"1/2"],
@@ -293,11 +307,6 @@ class gameboard {
       }
       turn++;
     })
-
-
-
-
-
 
 
 
