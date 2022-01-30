@@ -165,9 +165,33 @@ class gameboard {
 
   }
 
+  toggleMarket(toggle) {
+
+    if(toggle==0) {
+    document.querySelector('#cryptomarket').style.display = "none";
+  } else {
+    document.querySelector('#cryptomarket').style.display = "";
+  }
+  }
+
   initializeCryto() {
 
     this.cryptoInfo();
+  }
+
+  printCrypto(arrayList) {
+    // let test = [
+    //   [100,0,0,"1/2"],
+    //   [200,0,0,"3/2"]
+    // ]
+    //
+    // arrayList = test;
+
+    for (let i = 0;i<arrayList.length;i++) {
+        for (let j = 0;j<arrayList[i].length;j++) {
+        document.querySelectorAll(".tbodyCrypto tr")[i].querySelectorAll("td")[j+1].textContent = arrayList[i][j];
+      }
+    }
   }
 
   cryptoInfo() {
@@ -204,18 +228,18 @@ class gameboard {
 
     console.log(arrOfCrypto);
 
-    let tableCrypto = document.querySelector(".tbodyCrypto");
-    for (let i = 0; i < 8; i++) {
-      let row = document.createElement("tr");
-      for (let j = 0; j < 5; j++) {
-        let cell = document.createElement("td");
-        let cellText = document.createTextNode(arrOfCrypto[i][j]);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-      }
-      row.classList.add("dummy");
-      tableCrypto.appendChild(row);
-    }
+    // let tableCrypto = document.querySelector(".tbodyCrypto");
+    // for (let i = 0; i < 8; i++) {
+    //   let row = document.createElement("tr");
+    //   for (let j = 0; j < 5; j++) {
+    //     let cell = document.createElement("td");
+    //     let cellText = document.createTextNode(arrOfCrypto[i][j]);
+    //     cell.appendChild(cellText);
+    //     row.appendChild(cell);
+    //   }
+    //   row.classList.add("dummy");
+    //   tableCrypto.appendChild(row);
+    // }
 
     let rollBtn1 = document.querySelector(".rollBtn");
     rollBtn1.addEventListener("click", () => {
@@ -243,21 +267,26 @@ class gameboard {
         console.log(arrOfCrypto);
       }
 
-      for (let i = 0; i < 8; i++) {
-        document.querySelector(".dummy").remove();
-      }
+      // for (let i = 0; i < 8; i++) {
+      //   document.querySelector(".dummy").remove();
+      // }
 
-      for (let i = 0; i < 8; i++) {
-        let row = document.createElement("tr");
-        for (let j = 0; j < 5; j++) {
-          let cell = document.createElement("td");
-          let cellText = document.createTextNode(arrOfCrypto[i][j]);
-          cell.appendChild(cellText);
-          row.appendChild(cell);
-        }
-        row.classList.add("dummy");
-        tableCrypto.appendChild(row);
-      }
+      // for (let i = 0; i < 8; i++) {
+      //   let row = document.createElement("tr");
+      //   for (let j = 0; j < 5; j++) {
+      //     let cell = document.createElement("td");
+      //     let cellText = document.createTextNode(arrOfCrypto[i][j]);
+      //     cell.appendChild(cellText);
+      //     row.appendChild(cell);
+      //   }
+      //   row.classList.add("dummy");
+      //   tableCrypto.appendChild(row);
+      // }
+            for (let i = 0; i < 8; i++) {
+              for (let j = 1; j < 5; j++) {
+                document.querySelectorAll('#cryptomarket tbody tr')[i].querySelectorAll("td")[j]
+              }
+            }
       for (let i = 0; i < 8; i++) {
         this.previousPrice[i] = arrOfCrypto[i][1];
       }

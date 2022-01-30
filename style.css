@@ -15,7 +15,7 @@ html, body {
 }
 
 #gameMenu .card {
-  width: 500px;
+  width: 810px;
   opacity: 0.8;
 }
 #gameMenu #cover {
@@ -76,7 +76,7 @@ position: absolute;
   background-image: url(https://live.staticflickr.com/8463/8127137290_8ed24e7cbc_b.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  opacity: 0.8;
+  opacity: 0.7;
   /* background:gra y; */
 }
 
@@ -131,9 +131,18 @@ position: absolute;
   width:700px;
 }
 
+.tbodyCrypto button {
+  color: white;
+  font-weight: bold;
+}
+
 #cryptomarket{
-  margin-top: 20px;
-  width: 300px;
+  position: absolute;
+  z-index: 100;
+  top: calc(20px + 60px*4.5 - 173px );
+  left: calc(100% - (100% - 60px*9)/2 - 8px - 473px);
+  width: 400px;
+  background-color: inherit;
 }
 
 ul {

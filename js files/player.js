@@ -457,8 +457,8 @@ class player {
     } else if (type == "nft") {
       // this.print(p.name + " bought an NFT for $200!");
       // p.subMoney(200);
-
-      this.print("You can buy crypto!");
+      g.toggleMarket(1)
+      // this.print("You can buy crypto!");
       if (true) {
         //buy "Bitcoin";
         let coin = "Bitcoin";

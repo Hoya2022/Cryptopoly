@@ -32,10 +32,29 @@
     <div class="card border-dark mb-3">
       <h3 class="card-header">Welcome to Cryptopoly</h3>
       <div class="card-body text-dark">
-        <h5 class="card-title">This is the Story</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <h5 class="card-title">This is the rule</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <h5 class="card-title">Story</h5>
+        <p class="card-text">Want to go to the Moon? Stuck here on the little planet we call Earth? Well, welcome to Cryptopoly, the game that takes your virtual Cryptocurrency Empire to new heights and beyond. You could do some work, but let’s be honest, this is better. We promise (really). Who else among your friends and many acquaintances can say they got in a good dose of nostalgia while also squashing their foes in <i>imagined</i> economic domination. </p>
+        <h5 class="card-title">Rule:</h5>
+        <p class="card-text">
+See! You are already reading the rules, and no one would do that unless they wanted to play. Just follow these steps:
+<br>
+1. The almighty computer will have you and another player roll dice and decide who gets to go first.
+<br>
+2. When it’s your turn, roll the dice
+<br>
+3. If you land on a numbered card that the other player doesn’t own, you can get the chance to buy it. Collect all the cards of the same colors and build houses. Houses increase rent, which the other non-owner owes to the owner.
+<br>
+(Psst. this is like Monopoly so far).
+<br>
+4. If you pass go, your $$ goes up.
+<br>
+5. If you land on a tax card, you gotta pay up. You’ll lose some of your $$.
+<br>
+6. If you land on a chance or community card, follow the instructions on the card you receive. Pay careful attention to get out of jail cards.
+<br>
+7. If you land in jail, then the only way out is a get out of jail card or if you roll a double.
+<br>
+8. Now here’s where it gets different. If you land a NFT/Crypto card, you get the chance to buy cryptocurrency.  Grow your portfolio in a particular currency, and guess what, you’ve gone to the Moon! You won’t have to pay rent for a certain color number card, because you are up there. And we are down here.</p>
       </div>
         <a href="#" class="btn btn-success" onclick="g.startGame()">Start Game</a>
     </div>
@@ -234,19 +253,44 @@
 
   </session>
 
-  <section id="cryptomarket">
+  <section id="cryptomarket" style="display:none;">
     <table class="table table-striped table-hover tableCrypto">
       <thead>
         <tr>
           <th>Crypto Name</th>
           <th>Price</th>
           <th>Change</th>
-          <th>Average Price</th>
-          <th># of Coins Purchased</th>
-          <th>Trade</th>
+          <th>Avg Price</th>
+          <th>Own User1/User2</th>
         </tr>
       </thead>
-      <tbody class="tbodyCrypto"></tbody>
+      <tbody class="tbodyCrypto">
+        <tr>
+          <td><button type="button" class="btn btn-sm">Bitcoin</button></td><td>69</td><td>0</td><td>0</td><td>0</td></tr>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-sm">Ethereum</button></td><td>69</td><td>0</td><td>0</td><td>0</td></tr>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-sm">Tether</button></td><td>69</td><td>0</td><td>0</td><td>0</td></tr>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-sm">BinanceCoin</button></td><td>69</td><td>0</td><td>0</td><td>0</td></tr>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-sm">Cardano</button></td><td>69</td><td>0</td><td>0</td><td>0</td></tr>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-sm">HEX</button></td><td>69</td><td>0</td><td>0</td><td>0</td></tr>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-sm">Solana</button></td><td>69</td><td>0</td><td>0</td><td>0</td></tr>
+        </tr>
+        <tr>
+          <td><button type="button" class="btn btn-sm">XRP</button></td><td>69</td><td>0</td><td>0</td><td>0</td></tr>
+        </tr>
+      </tbody>
+        <a href="#" class="btn btn-warning" style="width: 100%;" onclick="g.toggleMarket(0)">Close</a>
     </table>
   </section>
 
@@ -259,9 +303,15 @@
     playerList = [];
     g = new gameboard(40, playerList);
 
+    let color = ["brown","skyblue","pink","orange","red","#ffd32a","green","#575fcf"]
+    let btnList = document.querySelectorAll('.tbodyCrypto button')
+
+    for(let i = 0;i<btnList.length;i++) {
+      btnList[i].style.backgroundColor = color[i]
+    }
+
   </script>
 
-  <script src="js files/cryptoInfo.js"></script>
 </body>
 
 </html>
