@@ -8,6 +8,40 @@ class gameboard {
     this.promptEvent = false;
     this.previousPrice = [];
     this.setPreviousPrice();
+    this.drewEvent = false;
+    this.player = 0;
+  }
+
+  switchPlayer() {
+    document.querySelector(`#player${this.player}profile`).click();
+    if (this.player == 0) {
+      this.player = 1
+    } else if (this.player == 1) {
+      this.player = 0
+    }
+  }
+
+  createPlayer() {
+
+    let player0 = "One"
+    let player1 = "Two"
+    if (document.querySelector('#player0name').value != "")
+      player0 = document.querySelector('#player0name').value
+    if (document.querySelector('#player1name').value != "")
+      player0 = document.querySelector('#player1name').value
+
+    playerList.push(new player(player0, 0));
+    playerList.push(new player(player1, 1));
+
+    document.querySelector('#playerInfo').style.display = "none";
+    // let person = prompt("Please enter your name", "Test");
+    // let name;
+    // if (person == null || person == "") {
+    //   name = "User cancelled the prompt.";
+    // } else {
+    //   console.log(person)
+    //   playerList.push(new player(person,0));
+    // }
   }
 
   createGameboard() {
@@ -30,8 +64,6 @@ class gameboard {
     for (let i = 0; i < this.playerList.length; i++) {
       this.playerList[i].update()
     }
-
-
   }
 
   setPreviousPrice() {
@@ -127,8 +159,89 @@ class gameboard {
         card.style.setProperty('width', '100px');
         card.style.setProperty('z-index', '0');
       }
+      setTimeout(
+        function () {
+          g.drewEvent();
+        }, 700
+      )
     }
 
+
+  }
+
+  initializeCryto() {
+    let arrOfCrypto = [];
+    let names = ["Bitcoin", "Ethereum", "Tether", "Binance Coin", "Cardano", "HEX", "Solana", "XRP"];
+
+    for (let i = 0; i < 8; i++) {
+      let info = [];
+      let currentName = names[i];
+      info.push(currentName);
+      info.push(randomStartingPrice());
+      info.push(0); // percent change
+      arrOfCrypto.push(info);
+    }
+
+    function randomStartingPrice() {
+      return Math.floor(Math.random() * 91) + 10;
+    }
+
+    function randomPercentage() {
+      let x = Math.random();
+      let y = Math.random();
+      if (x <= 0.5) {
+        y = y * -1;
+      }
+      return y;
+    }
+
+    console.log(arrOfCrypto);
+
+    let tableCrypto = document.querySelector(".tbodyCrypto");
+    for (let i = 0; i < 8; i++) {
+      let row = document.createElement("tr");
+      for (let j = 0; j < 3; j++) {
+        let cell = document.createElement("td");
+        let cellText = document.createTextNode(arrOfCrypto[i][j]);
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+      }
+      row.classList.add("dummy");
+      tableCrypto.appendChild(row);
+    }
+
+    let rollBtn1 = document.querySelector(".rollBtn");
+    //implement
+    rollBtn1.addEventListener("click", () => {
+      // update the percentage
+      let newArr = [];
+      for (let i = 0; i < 8; i++) {
+        let currentChange = randomPercentage();
+        newArr.push(currentChange);
+      }
+
+      for (let i = 0; i < 8; i++) {
+        arrOfCrypto[i][1] = arrOfCrypto[i][1] * (1 + newArr[i]);
+        arrOfCrypto[i][2] = newArr[i];
+      }
+      console.log(arrOfCrypto);
+
+      for (let i = 0; i < 8; i++) {
+        document.querySelector(".dummy").remove();
+      }
+
+      for (let i = 0; i < 8; i++) {
+        let row = document.createElement("tr");
+        for (let j = 0; j < 3; j++) {
+          let cell = document.createElement("td");
+          let cellText = document.createTextNode(arrOfCrypto[i][j]);
+          cell.appendChild(cellText);
+          row.appendChild(cell);
+        }
+        row.classList.add("dummy");
+        tableCrypto.appendChild(row);
+      }
+    })
   }
 
 }

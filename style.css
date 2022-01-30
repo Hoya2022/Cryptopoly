@@ -15,6 +15,11 @@ html, body {
   left: calc(100% - (100% - 60px*9)/2 - 8px - 404px);
   z-index: 20;
   opacity: 0.9;
+  width: 300px;
+}
+
+#eventcard .card {
+  height: 180px;
 }
 
 #event {
@@ -26,6 +31,13 @@ html, body {
 #gameboard {
   /* background:gray; */
   height:100vh;
+}
+
+#playerInfo {
+  position: absolute;
+  top: calc(20px + 60px*4.5 - 50px);
+  left: calc(100% - (100% - 60px*9)/2 - 8px - 404px);
+  z-index: 20;
 }
 
 #board {
@@ -74,6 +86,11 @@ html, body {
 #profile ul li  {
   display: flex;
 }
+
+.message li {
+  display: list-item !important;
+}
+
 #profile ul li div {
   padding-left: 10px;
 }

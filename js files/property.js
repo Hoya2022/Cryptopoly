@@ -97,7 +97,7 @@ class property{
         // console.log
         console.log(`Player ${p.getName()} needs to pay rent to ${this.getOwner().getName()}`);
 
-        if(p.getMoney() - rent < 0){
+        if(p.getMoney() - this.rent < 0){
             console.log("Not enough money");
             // maybe game over for this player
             return;
