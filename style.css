@@ -1,5 +1,31 @@
 html, body {
   margin:0px;
+  overflow: hidden;
+}
+
+#gameMenu {
+  height: 100vh;
+  width: 100vw;
+  z-index: 100;
+  background-color: black;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gameMenu .card {
+  width: 500px;
+  opacity: 0.8;
+}
+#gameMenu #cover {
+position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-image: url(https://www.poggispa.com/wp-content/uploads/2019/12/cyber-attack-1-750x450.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.3;
 }
 
 #playerInfo {
@@ -47,11 +73,15 @@ html, body {
   width: calc( 80px*2 + 60px*9 + 20px);
   height: calc( 80px*2 + 60px*9 + 20px);
   box-shadow: 0 5px 20px rgba(0,0,0,.25);
+  background-image: url(https://live.staticflickr.com/8463/8127137290_8ed24e7cbc_b.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.8;
   /* background:gra y; */
 }
 
 .grid {
-  /* background-color: #c7ecee; */
+  background-color: white;
   border: solid #2d3436 1px;
   display: flex;
   justify-content: center;
@@ -59,7 +89,7 @@ html, body {
 }
 .square-grid {
   position: absolute;
-  /* background-color: yellow; */
+  background-color: yellow;
   border: solid #2d3436 1px;
   height: 80px;
   width: 80px;
