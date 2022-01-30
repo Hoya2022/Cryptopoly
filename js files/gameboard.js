@@ -10,9 +10,6 @@ class gameboard {
     this.setPreviousPrice();
     this.drewEvent = false;
     this.player = 0;
-    this.arrOfCrypto = [];
-    this.initialize = false;
-    this.beforeTurn = true;
   }
 
   startGame() {
@@ -41,17 +38,6 @@ class gameboard {
     playerList.push(new player(player1, 1));
 
     document.querySelector('#playerInfo').style.display = "none";
-    // let person = prompt("Please enter your name", "Test");
-    // let name;
-    // if (person == null || person == "") {
-    //   name = "User cancelled the prompt.";
-    // } else {
-    //   console.log(person)
-    //   playerList.push(new player(person,0));
-    // }
-
-    // this.initializeCrypto()
-
   }
 
   createGameboard() {
@@ -181,57 +167,50 @@ class gameboard {
 
   toggleMarket(toggle) {
 
-    if (toggle == 0) {
-      document.querySelector('#cryptomarket').style.display = "none";
-    } else {
-      document.querySelector('#cryptomarket').style.display = "";
-    }
+    if(toggle==0) {
+    document.querySelector('#cryptomarket').style.display = "none";
+  } else {
+    document.querySelector('#cryptomarket').style.display = "";
+  }
   }
 
-  initializeCrypto() {
+  initializeCryto() {
 
     this.cryptoInfo();
   }
 
   printCrypto(arrayList) {
-    // let test = [
-    //   [100,0,0,"1/2"],
-    //   [200,0,0,"3/2"]
-    // ]
+    let test = [
+      [100,0,0,"1/2"],
+      [200,0,0,"3/2"]
+    ]
     //
     // arrayList = test;
 
-    for (let i = 0; i < arrayList.length; i++) {
-      for (let j = 0; j < arrayList[i].length; j++) {
-        document.querySelectorAll(".tbodyCrypto tr")[i].querySelectorAll("td")[j + 1].textContent = arrayList[i][j];
+    for (let i = 0;i<arrayList.length;i++) {
+        for (let j = 0;j<arrayList[i].length;j++) {
+        document.querySelectorAll(".tbodyCrypto tr")[i].querySelectorAll("td")[j+1].textContent = arrayList[i][j];
       }
     }
   }
 
   cryptoInfo() {
-
+    let arrOfCrypto = [];
     let names = ["Bitcoin", "Ethereum", "Tether", "Binance Coin", "Cardano", "HEX", "Solana", "XRP"];
     let numPlayers = this.playerList.length;
     let turn = 0;
+
     let p = this.playerList[this.player];
 
-    if (this.beforeTurn && !this.initialize) {
-      p = this.playerList[(this.player + 1) % 2];
-    }
-
-    if (this.initialize) {
-      for (let i = 0; i < 8; i++) {
-        let info = [];
-        let currentName = names[i];
-        info.push(currentName);
-        info.push(randomStartingPrice());
-        info.push(0); // percent change
-        info.push(p.priceList[i]);
-        info.push(p.cryptoList[i]);
-        this.arrOfCrypto.push(info);
-      }
-
-      this.initialize = false;
+    for (let i = 0; i < 8; i++) {
+      let info = [];
+      let currentName = names[i];
+      info.push(currentName);
+      info.push(randomStartingPrice());
+      info.push(0); // percent change
+      info.push(p.priceList[i]);
+      info.push(p.cryptoList[i]);
+      arrOfCrypto.push(info);
     }
 
     function randomStartingPrice() {
@@ -247,8 +226,7 @@ class gameboard {
       return y;
     }
 
-    console.log(this.arrOfCrypto);
-
+    console.log(arrOfCrypto);
 
     // let tableCrypto = document.querySelector(".tbodyCrypto");
     // for (let i = 0; i < 8; i++) {
@@ -279,8 +257,9 @@ class gameboard {
           if (p.newCryptoIndex == i && p.buyCrypto == true) {
             arrOfCrypto[i][3] = (arrOfCrypto[i][3] * arrOfCrypto[i][4] + this.previousPrice[i] * p.newCryptoNum) / p.cryptoList[i];
             p.priceList[i] = arrOfCrypto[i][3];
-          } else
+          } else {
             arrOfCrypto[i][3] = p.priceList[i];
+          }
           arrOfCrypto[i][3] = Math.round(arrOfCrypto[i][3] * 100) / 100;
           arrOfCrypto[i][4] = p.cryptoList[i];
         }
@@ -304,71 +283,16 @@ class gameboard {
       //   row.classList.add("dummy");
       //   tableCrypto.appendChild(row);
       // }
+            for (let i = 0; i < 8; i++) {
+              for (let j = 1; j < 5; j++) {
+                document.querySelectorAll('#cryptomarket tbody tr')[i].querySelectorAll("td")[j]
+              }
+            }
       for (let i = 0; i < 8; i++) {
-        for (let j = 1; j < 5; j++) {
-          document.querySelectorAll('#cryptomarket tbody tr')[i].querySelectorAll("td")[j]
-        }
+        this.previousPrice[i] = arrOfCrypto[i][1];
       }
-      for (let i = 0; i < 8; i++) {
-        newArr.push(0);
-      }
-
-
-      let p1 = this.playerList[0];
-      let p2 = this.playerList[1];
-
-      for (let i = 0; i < 8; i++) {
-        this.arrOfCrypto[i][1] = Math.round(this.arrOfCrypto[i][1] * (1 + newArr[i]) * 100) / 100;
-        this.arrOfCrypto[i][2] = Math.round(newArr[i] * 100) / 100;
-        if (p.newCryptoIndex == i && p.buyCrypto == true) {
-          // this.arrOfCrypto[i][3] = (this.arrOfCrypto[i][3] * this.arrOfCrypto[i][4] + this.previousPrice[i] * p.newCryptoNum) / p.cryptoList[i];
-          // p.priceList[i] = this.arrOfCrypto[i][3];
-          this.arrOfCrypto[i][3] = p.priceList[i];
-        } else
-          this.arrOfCrypto[i][3] = this.arrOfCrypto[i][3];
-        this.arrOfCrypto[i][3] = Math.round(this.arrOfCrypto[i][3] * 100) / 100;
-        this.arrOfCrypto[i][4] = p.cryptoList[i];
-        this.arrOfCrypto[i][5] = p1.cryptoList[i] + "/" + p2.cryptoList[i];
-      }
-
-      console.log(p.priceList);
-      console.log(p.cryptoList);
-      console.log(this.arrOfCrypto);
-
-      //what's this?
-      for (let i = 0; i < 8; i++) {
-        document.querySelector(".dummy").remove();
-      }
-
-      this.cryptoTableGenerator(tableCrypto);
-
-
-      for (let i = 0; i < 8; i++) {
-        this.previousPrice[i] = this.arrOfCrypto[i][1];
-      }
-
-      //chen's print table method
-      this.printCryptothis(this.arrOfCrypto);
-
       turn++;
-
-      // let parse = document.createElement('script');
-
-      // parse.onload = function(){
-      //     let rollBtn1 = document.querySelector(".rollBtn");
-      //     rollBtn1.addEventListener("click", () =>{
-      //         Papa.parse("https://storage.googleapis.com/crypto_stuff/files/priceChanges.csv",{
-      //             download: true,
-      //             header: false,
-      //             complete: function(result){
-      //                 console.log(result);
-      //             }
-      //         })
-      //     })
-      // };
-      // parse.src = "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js";
-
-      // document.head.appendChild(parse);
+    })
 
 
 
@@ -376,23 +300,47 @@ class gameboard {
 
 
 
-      // let rollBtn1 = document.querySelector(".rollBtn");
-      // rollBtn1.addEventListener("click", () =>{
-      //     let parse = document.createElement('script');
 
-      //     parse.onload = function(){
-      //         Papa.parse("https://storage.googleapis.com/crypto_stuff/files/priceChanges.csv",{
-      //             download: true,
-      //             header: false,
-      //             complete: function(result){
-      //                 console.log(result);
-      //             }
-      //         })
-      //     };
-      //     parse.src = "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js";
-      //     document.head.appendChild(parse);
-      // });}
+    // let parse = document.createElement('script');
 
-    }
+    // parse.onload = function(){
+    //     let rollBtn1 = document.querySelector(".rollBtn");
+    //     rollBtn1.addEventListener("click", () =>{
+    //         Papa.parse("https://storage.googleapis.com/crypto_stuff/files/priceChanges.csv",{
+    //             download: true,
+    //             header: false,
+    //             complete: function(result){
+    //                 console.log(result);
+    //             }
+    //         })
+    //     })
+    // };
+    // parse.src = "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js";
+
+    // document.head.appendChild(parse);
+
+
+
+
+
+
+
+    // let rollBtn1 = document.querySelector(".rollBtn");
+    // rollBtn1.addEventListener("click", () =>{
+    //     let parse = document.createElement('script');
+
+    //     parse.onload = function(){
+    //         Papa.parse("https://storage.googleapis.com/crypto_stuff/files/priceChanges.csv",{
+    //             download: true,
+    //             header: false,
+    //             complete: function(result){
+    //                 console.log(result);
+    //             }
+    //         })
+    //     };
+    //     parse.src = "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.1/papaparse.min.js";
+    //     document.head.appendChild(parse);
+    // });}
+
   }
 }
